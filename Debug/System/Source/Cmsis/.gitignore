@@ -1,0 +1,4 @@
+/system_stm32f10x.d
+/system_stm32f10x.o
+/vectors_stm32f10x.d
+/vectors_stm32f10x.o

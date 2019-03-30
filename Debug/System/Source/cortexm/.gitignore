@@ -1,0 +1,6 @@
+/_initialize_hardware.d
+/_initialize_hardware.o
+/_reset_hardware.d
+/_reset_hardware.o
+/exception_handlers.d
+/exception_handlers.o
