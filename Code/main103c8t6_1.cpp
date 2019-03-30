@@ -69,8 +69,8 @@ void main(void)
 
     // ------------------------------------------------------------------------
     Rcc.PortOn(GPIOportX::PortB);
- 	PortB.CRH &= ~(0x0FU << (4 * 4));
-	PortB.CRH |= 0x02U << (4 * 4);
+ 	PortB.CRH &= ~(0x0FU << 4 * 4);
+	PortB.CRH |= 0x02U << 4 * 4;  // PushPull (TotemPole или двухтактный выход).
 
  	PortB.CRH &= ~(0x0FU << (4 * 5));
 	PortB.CRH |= 0x02U << (4 * 5);
@@ -97,7 +97,7 @@ void main(void)
 
     PortA.BSRR = 0x01U << 3; // * Высокий уровень
 
-    PortA.CRL |= 0x05U << 4 * 3; // * Открытый исток
+    PortA.CRL |= 0x05U << 4 * 3; // * Открытый сток
 
     PortA.BRR = 0x01U << 3; // * Низкий уровень.
 

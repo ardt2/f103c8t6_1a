@@ -36,14 +36,6 @@ enum class GPIOportX : uint32_t // Можно сделать просто enum �
 
 //  uint32_t PortMask(GPIOportX n) { return static_cast<uint32_t>n; };
 
-// ----------------------------------------------------------------------------
-enum class PeripheryX : uint32_t // Можно сделать просто enum и внести в класс.
-{
-    PortA = RCC_APB2ENR_IOPAEN,
-    PortB = RCC_APB2ENR_IOPBEN,
-    PortC = RCC_APB2ENR_IOPCEN,
-
-};
 
 // ----------------------------------------------------------------------------
 class TRcc: public ::RCC_TypeDef
@@ -87,7 +79,7 @@ class TRcc: public ::RCC_TypeDef
         // --------------------------------------------------------------------
         void Peryphery1on(TPeriphery1 p1)
         {
-            APB1ENR |= p1;  // Тактирование I2C1
+            APB1ENR |= p1;
         }
 
 };
@@ -130,26 +122,56 @@ class TGpIO : public GPIO_TypeDef
         TGpIO() = delete;
         ~TGpIO() = delete;
 
+        enum PinMode { OpenDrain = 0x05U, PushPull = 0x02U, };
+        enum PinSpeed { _2MHz, _10Mhz, _50Mhz};
+
+        // --------------------------------------------------------------------
+        void SetPinMode(PinMode mode, uint8_t pin)
+        {
+            if(pin < 8)
+            {
+                CRL &= ~(mode << pin);
+                CRL |= mode << pin;
+            }
+            {
+                pin -= 8;
+                CRH &= ~(mode << pin);
+                CRH |= mode << pin;
+            }
+        }
+
+        // --------------------------------------------------------------------
+        void SetPinSpeed(PinSpeed speed, uint8_t pin)
+        {
+            if(pin < 8)
+            {
+                CRL &= ~(speed << pin);
+                CRL |= speed << pin;
+            }
+            {
+                pin -= 8;
+                CRH &= ~(speed << pin);
+                CRH |= speed << pin;
+            }
+        }
+
 
     // ========================================================================
     public:
-        void SetPushPull(uint8_t n)
+        void SetPushPull(uint8_t pin)
         {
-            CRH &= ~(0x05 << n);
-            CRH |= 0x05 << n;
+            SetPinMode(PushPull, pin);
+            // CRH &= ~(mode << n);
+            // CRH |= mode << n;
 //          CMSIS_GPIO.MODER |= 0x03u << PinClamp(pin) * 2;     // Если пин -- константа, то это все вычисляется
 //          CMSIS_GPIO.MODER &= ~(0x02u << PinClamp(pin) * 2);  // при компиляции и сводится к r.or r.and.
         }
+
+
         // --------------------------------------------------------------------
-        void SetOpenDrain(uint8_t n)
+        void SetOpenDrain(uint8_t pin)
         {
-            if(n > 8)
-            {
-
-            }
-
-            CRH &= ~(0x05 << n);
-            CRH |= 0x05 << n;
+            SetPinMode(OpenDrain, pin);
         }
 
         // --------------------------------------------------------------------
@@ -187,6 +209,8 @@ class TI2C : public I2C_TypeDef
         //  * Установка бита start в регистре I2C_CR1 для запуска передачи.
         void Open()
         {
+            // Rcc.Peryphery1on();   // Тактирование I2C1
+
             CR1 = 0;
             CR1 |= I2C_CR1_ACK | I2C_CR1_START | I2C_CR1_STOP;
 
@@ -214,6 +238,7 @@ class TI2C : public I2C_TypeDef
         {
 
         }
+
 };
 
 // ----------------------------------------------------------------------------

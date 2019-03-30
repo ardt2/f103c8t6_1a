@@ -54,7 +54,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000     0xe90a ./System/Source/cortexm/_reset_hardware.o
  .debug_macro   0x0000000000000000       0x43 ./System/Source/cortexm/_reset_hardware.o
  .debug_line    0x0000000000000000      0x1c4 ./System/Source/cortexm/_reset_hardware.o
- .debug_str     0x0000000000000000    0x556ab ./System/Source/cortexm/_reset_hardware.o
+ .debug_str     0x0000000000000000    0x556a5 ./System/Source/cortexm/_reset_hardware.o
  .comment       0x0000000000000000       0x69 ./System/Source/cortexm/_reset_hardware.o
  .debug_frame   0x0000000000000000       0x20 ./System/Source/cortexm/_reset_hardware.o
  .ARM.attributes
@@ -179,7 +179,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x1c ./System/Source/Newlib/_cxx.o
  .debug_macro   0x0000000000000000       0x3d ./System/Source/Newlib/_cxx.o
  .debug_line    0x0000000000000000      0x53b ./System/Source/Newlib/_cxx.o
- .debug_str     0x0000000000000000     0x8aa0 ./System/Source/Newlib/_cxx.o
+ .debug_str     0x0000000000000000     0x8a9a ./System/Source/Newlib/_cxx.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/_cxx.o
  .debug_frame   0x0000000000000000       0x40 ./System/Source/Newlib/_cxx.o
  .ARM.attributes
@@ -292,7 +292,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x18e ./System/Source/Newlib/_sbrk.o
  .debug_macro   0x0000000000000000      0x23b ./System/Source/Newlib/_sbrk.o
  .debug_line    0x0000000000000000      0x3aa ./System/Source/Newlib/_sbrk.o
- .debug_str     0x0000000000000000     0x723c ./System/Source/Newlib/_sbrk.o
+ .debug_str     0x0000000000000000     0x7236 ./System/Source/Newlib/_sbrk.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/_sbrk.o
  .debug_frame   0x0000000000000000       0x28 ./System/Source/Newlib/_sbrk.o
  .ARM.attributes
@@ -455,7 +455,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x189 ./System/Source/Newlib/_syscalls.o
  .debug_macro   0x0000000000000000       0x16 ./System/Source/Newlib/_syscalls.o
  .debug_line    0x0000000000000000      0x4a4 ./System/Source/Newlib/_syscalls.o
- .debug_str     0x0000000000000000     0x8088 ./System/Source/Newlib/_syscalls.o
+ .debug_str     0x0000000000000000     0x8082 ./System/Source/Newlib/_syscalls.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/_syscalls.o
  .debug_frame   0x0000000000000000       0x50 ./System/Source/Newlib/_syscalls.o
  .ARM.attributes
@@ -512,7 +512,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x29 ./System/Source/Newlib/assert.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/Newlib/assert.o
  .debug_line    0x0000000000000000      0x2d5 ./System/Source/Newlib/assert.o
- .debug_str     0x0000000000000000     0x6c43 ./System/Source/Newlib/assert.o
+ .debug_str     0x0000000000000000     0x6c3d ./System/Source/Newlib/assert.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/assert.o
  .ARM.attributes
                 0x0000000000000000       0x33 ./System/Source/Newlib/assert.o
@@ -1023,7 +1023,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x334b
+.debug_info     0x0000000000000000     0x33f7
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x327 ./System/Source/cortexm/_initialize_hardware.o
  .debug_info    0x0000000000000327      0xba4 ./System/Source/cortexm/exception_handlers.o
@@ -1031,9 +1031,9 @@ END GROUP
  .debug_info    0x000000000000183d      0x466 ./System/Source/Newlib/_startup.o
  .debug_info    0x0000000000001ca3      0x508 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_info    0x00000000000021ab       0xce ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_info    0x0000000000002279     0x10d2 ./Code/main103c8t6_1.o
+ .debug_info    0x0000000000002279     0x117e ./Code/main103c8t6_1.o
 
-.debug_abbrev   0x0000000000000000      0xd29
+.debug_abbrev   0x0000000000000000      0xd40
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0xfc ./System/Source/cortexm/_initialize_hardware.o
  .debug_abbrev  0x00000000000000fc      0x26e ./System/Source/cortexm/exception_handlers.o
@@ -1041,9 +1041,9 @@ END GROUP
  .debug_abbrev  0x0000000000000586      0x1a5 ./System/Source/Newlib/_startup.o
  .debug_abbrev  0x000000000000072b      0x18a ./System/Source/Cmsis/system_stm32f10x.o
  .debug_abbrev  0x00000000000008b5       0xa5 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_abbrev  0x000000000000095a      0x3cf ./Code/main103c8t6_1.o
+ .debug_abbrev  0x000000000000095a      0x3e6 ./Code/main103c8t6_1.o
 
-.debug_line     0x0000000000000000     0x1825
+.debug_line     0x0000000000000000     0x1821
  *(.debug_line)
  .debug_line    0x0000000000000000      0x1a0 ./System/Source/cortexm/_initialize_hardware.o
  .debug_line    0x00000000000001a0      0x4cd ./System/Source/cortexm/exception_handlers.o
@@ -1051,7 +1051,7 @@ END GROUP
  .debug_line    0x000000000000094d      0x5c3 ./System/Source/Newlib/_startup.o
  .debug_line    0x0000000000000f10      0x3be ./System/Source/Cmsis/system_stm32f10x.o
  .debug_line    0x00000000000012ce      0x128 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_line    0x00000000000013f6      0x42f ./Code/main103c8t6_1.o
+ .debug_line    0x00000000000013f6      0x42b ./Code/main103c8t6_1.o
 
 .debug_frame    0x0000000000000000      0x298
  *(.debug_frame)
@@ -1063,22 +1063,22 @@ END GROUP
  .debug_frame   0x0000000000000248       0x20 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_frame   0x0000000000000268       0x30 ./Code/main103c8t6_1.o
 
-.debug_str      0x0000000000000000    0x5a55e
+.debug_str      0x0000000000000000    0x5a5de
  *(.debug_str)
- .debug_str     0x0000000000000000    0x554b3 ./System/Source/cortexm/_initialize_hardware.o
-                                      0x556e5 (size before relaxing)
- .debug_str     0x00000000000554b3     0x32f3 ./System/Source/cortexm/exception_handlers.o
-                                      0x589c0 (size before relaxing)
- .debug_str     0x00000000000587a6      0x11d ./System/Source/Newlib/_exit.o
-                                       0x618d (size before relaxing)
- .debug_str     0x00000000000588c3      0xec0 ./System/Source/Newlib/_startup.o
-                                       0x6956 (size before relaxing)
- .debug_str     0x0000000000059783      0x12d ./System/Source/Cmsis/system_stm32f10x.o
-                                      0x557b1 (size before relaxing)
- .debug_str     0x00000000000598b0       0x5a ./System/Source/Cmsis/vectors_stm32f10x.o
-                                       0x390b (size before relaxing)
- .debug_str     0x000000000005990a      0xc54 ./Code/main103c8t6_1.o
-                                      0x5623a (size before relaxing)
+ .debug_str     0x0000000000000000    0x554ad ./System/Source/cortexm/_initialize_hardware.o
+                                      0x556df (size before relaxing)
+ .debug_str     0x00000000000554ad     0x32f3 ./System/Source/cortexm/exception_handlers.o
+                                      0x589ba (size before relaxing)
+ .debug_str     0x00000000000587a0      0x11d ./System/Source/Newlib/_exit.o
+                                       0x6187 (size before relaxing)
+ .debug_str     0x00000000000588bd      0xec0 ./System/Source/Newlib/_startup.o
+                                       0x6950 (size before relaxing)
+ .debug_str     0x000000000005977d      0x12d ./System/Source/Cmsis/system_stm32f10x.o
+                                      0x557ab (size before relaxing)
+ .debug_str     0x00000000000598aa       0x5a ./System/Source/Cmsis/vectors_stm32f10x.o
+                                       0x3905 (size before relaxing)
+ .debug_str     0x0000000000059904      0xcda ./Code/main103c8t6_1.o
+                                      0x562de (size before relaxing)
 
 .debug_loc      0x0000000000000000      0x50b
  *(.debug_loc)
