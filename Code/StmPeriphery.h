@@ -19,12 +19,6 @@
 #define __STM_PERIPHERY_H
 
 
-#ifdef __cplusplus // Обеспечь совместимость с C++
-extern "C"
-{
-#endif
-
-
 // ============================================================================
 enum class GPIOportX : uint32_t // Можно сделать просто enum и внести в класс.
 {
@@ -252,9 +246,5 @@ extern TI2C & i2c1;
 // TODO
 
 
-
-#ifdef __cplusplus // Обеспечь совместимость с C++
-}
-#endif
 
 #endif //__STM_PERIPHERY_H

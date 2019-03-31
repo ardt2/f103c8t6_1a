@@ -44,7 +44,7 @@ Discarded input sections
                 0x0000000000000000       0x20 ./System/Source/cortexm/_reset_hardware.o
  .debug_ranges  0x0000000000000000       0x10 ./System/Source/cortexm/_reset_hardware.o
  .debug_macro   0x0000000000000000       0x80 ./System/Source/cortexm/_reset_hardware.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/cortexm/_reset_hardware.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/cortexm/_reset_hardware.o
  .debug_macro   0x0000000000000000       0x2e ./System/Source/cortexm/_reset_hardware.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/cortexm/_reset_hardware.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/cortexm/_reset_hardware.o
@@ -54,7 +54,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000     0xe90a ./System/Source/cortexm/_reset_hardware.o
  .debug_macro   0x0000000000000000       0x43 ./System/Source/cortexm/_reset_hardware.o
  .debug_line    0x0000000000000000      0x1c4 ./System/Source/cortexm/_reset_hardware.o
- .debug_str     0x0000000000000000    0x556a5 ./System/Source/cortexm/_reset_hardware.o
+ .debug_str     0x0000000000000000    0x556b4 ./System/Source/cortexm/_reset_hardware.o
  .comment       0x0000000000000000       0x69 ./System/Source/cortexm/_reset_hardware.o
  .debug_frame   0x0000000000000000       0x20 ./System/Source/cortexm/_reset_hardware.o
  .ARM.attributes
@@ -87,7 +87,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./System/Source/cortexm/exception_handlers.o
  .data          0x0000000000000000        0x0 ./System/Source/cortexm/exception_handlers.o
  .bss           0x0000000000000000        0x0 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/cortexm/exception_handlers.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/cortexm/exception_handlers.o
  .debug_macro   0x0000000000000000       0x2e ./System/Source/cortexm/exception_handlers.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/cortexm/exception_handlers.o
@@ -143,7 +143,7 @@ Discarded input sections
                 0x0000000000000000       0x28 ./System/Source/Newlib/_cxx.o
  .debug_ranges  0x0000000000000000       0x18 ./System/Source/Newlib/_cxx.o
  .debug_macro   0x0000000000000000      0x1c9 ./System/Source/Newlib/_cxx.o
- .debug_macro   0x0000000000000000      0xb3e ./System/Source/Newlib/_cxx.o
+ .debug_macro   0x0000000000000000      0xb44 ./System/Source/Newlib/_cxx.o
  .debug_macro   0x0000000000000000      0x16f ./System/Source/Newlib/_cxx.o
  .debug_macro   0x0000000000000000       0x10 ./System/Source/Newlib/_cxx.o
  .debug_macro   0x0000000000000000      0x3f4 ./System/Source/Newlib/_cxx.o
@@ -179,7 +179,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x1c ./System/Source/Newlib/_cxx.o
  .debug_macro   0x0000000000000000       0x3d ./System/Source/Newlib/_cxx.o
  .debug_line    0x0000000000000000      0x53b ./System/Source/Newlib/_cxx.o
- .debug_str     0x0000000000000000     0x8a9a ./System/Source/Newlib/_cxx.o
+ .debug_str     0x0000000000000000     0x8aa9 ./System/Source/Newlib/_cxx.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/_cxx.o
  .debug_frame   0x0000000000000000       0x40 ./System/Source/Newlib/_cxx.o
  .ARM.attributes
@@ -207,7 +207,7 @@ Discarded input sections
  .data          0x0000000000000000        0x0 ./System/Source/Newlib/_exit.o
  .bss           0x0000000000000000        0x0 ./System/Source/Newlib/_exit.o
  .text.abort    0x0000000000000000        0x8 ./System/Source/Newlib/_exit.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Newlib/_exit.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Newlib/_exit.o
  .debug_macro   0x0000000000000000       0x18 ./System/Source/Newlib/_exit.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/Newlib/_exit.o
  .debug_macro   0x0000000000000000       0x5e ./System/Source/Newlib/_exit.o
@@ -264,7 +264,7 @@ Discarded input sections
                 0x0000000000000000       0x20 ./System/Source/Newlib/_sbrk.o
  .debug_ranges  0x0000000000000000       0x10 ./System/Source/Newlib/_sbrk.o
  .debug_macro   0x0000000000000000      0x169 ./System/Source/Newlib/_sbrk.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Newlib/_sbrk.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Newlib/_sbrk.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/Newlib/_sbrk.o
  .debug_macro   0x0000000000000000       0x5e ./System/Source/Newlib/_sbrk.o
  .debug_macro   0x0000000000000000       0x18 ./System/Source/Newlib/_sbrk.o
@@ -292,7 +292,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x18e ./System/Source/Newlib/_sbrk.o
  .debug_macro   0x0000000000000000      0x23b ./System/Source/Newlib/_sbrk.o
  .debug_line    0x0000000000000000      0x3aa ./System/Source/Newlib/_sbrk.o
- .debug_str     0x0000000000000000     0x7236 ./System/Source/Newlib/_sbrk.o
+ .debug_str     0x0000000000000000     0x7245 ./System/Source/Newlib/_sbrk.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/_sbrk.o
  .debug_frame   0x0000000000000000       0x28 ./System/Source/Newlib/_sbrk.o
  .ARM.attributes
@@ -333,7 +333,7 @@ Discarded input sections
                 0x0000000000000000       0x48 ./System/Source/Newlib/_startup.o
  .text.__run_fini_array
                 0x0000000000000000       0x24 ./System/Source/Newlib/_startup.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Newlib/_startup.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Newlib/_startup.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/Newlib/_startup.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/Newlib/_startup.o
  .debug_macro   0x0000000000000000       0x5e ./System/Source/Newlib/_startup.o
@@ -416,7 +416,7 @@ Discarded input sections
                 0x0000000000000000       0x30 ./System/Source/Newlib/_syscalls.o
  .debug_ranges  0x0000000000000000       0x20 ./System/Source/Newlib/_syscalls.o
  .debug_macro   0x0000000000000000      0x1f3 ./System/Source/Newlib/_syscalls.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Newlib/_syscalls.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Newlib/_syscalls.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/Newlib/_syscalls.o
  .debug_macro   0x0000000000000000       0x5e ./System/Source/Newlib/_syscalls.o
  .debug_macro   0x0000000000000000       0x18 ./System/Source/Newlib/_syscalls.o
@@ -455,7 +455,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000      0x189 ./System/Source/Newlib/_syscalls.o
  .debug_macro   0x0000000000000000       0x16 ./System/Source/Newlib/_syscalls.o
  .debug_line    0x0000000000000000      0x4a4 ./System/Source/Newlib/_syscalls.o
- .debug_str     0x0000000000000000     0x8082 ./System/Source/Newlib/_syscalls.o
+ .debug_str     0x0000000000000000     0x8091 ./System/Source/Newlib/_syscalls.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/_syscalls.o
  .debug_frame   0x0000000000000000       0x50 ./System/Source/Newlib/_syscalls.o
  .ARM.attributes
@@ -490,7 +490,7 @@ Discarded input sections
  .debug_aranges
                 0x0000000000000000       0x18 ./System/Source/Newlib/assert.o
  .debug_macro   0x0000000000000000      0x112 ./System/Source/Newlib/assert.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Newlib/assert.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Newlib/assert.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/Newlib/assert.o
  .debug_macro   0x0000000000000000       0x5e ./System/Source/Newlib/assert.o
  .debug_macro   0x0000000000000000       0x18 ./System/Source/Newlib/assert.o
@@ -512,7 +512,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x29 ./System/Source/Newlib/assert.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/Newlib/assert.o
  .debug_line    0x0000000000000000      0x2d5 ./System/Source/Newlib/assert.o
- .debug_str     0x0000000000000000     0x6c3d ./System/Source/Newlib/assert.o
+ .debug_str     0x0000000000000000     0x6c4c ./System/Source/Newlib/assert.o
  .comment       0x0000000000000000       0x69 ./System/Source/Newlib/assert.o
  .ARM.attributes
                 0x0000000000000000       0x33 ./System/Source/Newlib/assert.o
@@ -528,7 +528,7 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./System/Source/Cmsis/system_stm32f10x.o
  .data          0x0000000000000000        0x0 ./System/Source/Cmsis/system_stm32f10x.o
  .bss           0x0000000000000000        0x0 ./System/Source/Cmsis/system_stm32f10x.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Cmsis/system_stm32f10x.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_macro   0x0000000000000000       0x2e ./System/Source/Cmsis/system_stm32f10x.o
  .debug_macro   0x0000000000000000       0x22 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/Cmsis/system_stm32f10x.o
@@ -542,8 +542,38 @@ Discarded input sections
  .text          0x0000000000000000        0x0 ./System/Source/Cmsis/vectors_stm32f10x.o
  .data          0x0000000000000000        0x0 ./System/Source/Cmsis/vectors_stm32f10x.o
  .bss           0x0000000000000000        0x0 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_macro   0x0000000000000000      0xa9c ./System/Source/Cmsis/vectors_stm32f10x.o
+ .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/Cmsis/vectors_stm32f10x.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
+ .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
  .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
  .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
  .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
@@ -562,7 +592,7 @@ Discarded input sections
  .rodata.Rcc    0x0000000000000000        0x4 ./Code/main103c8t6_1.o
  .rodata.SysTimer
                 0x0000000000000000        0x4 ./Code/main103c8t6_1.o
- .debug_macro   0x0000000000000000      0xb3e ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000      0xb44 ./Code/main103c8t6_1.o
  .debug_macro   0x0000000000000000       0x2e ./Code/main103c8t6_1.o
  .debug_macro   0x0000000000000000       0x22 ./Code/main103c8t6_1.o
  .debug_macro   0x0000000000000000      0x34e ./Code/main103c8t6_1.o
@@ -570,6 +600,26 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x34 ./Code/main103c8t6_1.o
  .debug_macro   0x0000000000000000     0xe90a ./Code/main103c8t6_1.o
  .debug_macro   0x0000000000000000       0x43 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x22 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x5e ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x18 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x94 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x35 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x34 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x57 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x58 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x1f ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x43 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x20 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000      0x18e ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000      0x35c ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x10 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000      0x16f ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x10 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000      0x3f4 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x16 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x16 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000000       0x29 ./Code/main103c8t6_1.o
  .text          0x0000000000000000        0x0 e:/save/eclipse2a/gnu mcu eclipse/arm embedded gcc/8.2.1-1.4-20190214-0604/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg.a(lib_a-errno.o)
  .data          0x0000000000000000        0x0 e:/save/eclipse2a/gnu mcu eclipse/arm embedded gcc/8.2.1-1.4-20190214-0604/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg.a(lib_a-errno.o)
  .bss           0x0000000000000000        0x0 e:/save/eclipse2a/gnu mcu eclipse/arm embedded gcc/8.2.1-1.4-20190214-0604/bin/../lib/gcc/arm-none-eabi/8.2.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libg.a(lib_a-errno.o)
@@ -1023,7 +1073,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x33f7
+.debug_info     0x0000000000000000     0x659e
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x327 ./System/Source/cortexm/_initialize_hardware.o
  .debug_info    0x0000000000000327      0xba4 ./System/Source/cortexm/exception_handlers.o
@@ -1031,9 +1081,9 @@ END GROUP
  .debug_info    0x000000000000183d      0x466 ./System/Source/Newlib/_startup.o
  .debug_info    0x0000000000001ca3      0x508 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_info    0x00000000000021ab       0xce ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_info    0x0000000000002279     0x117e ./Code/main103c8t6_1.o
+ .debug_info    0x0000000000002279     0x4325 ./Code/main103c8t6_1.o
 
-.debug_abbrev   0x0000000000000000      0xd40
+.debug_abbrev   0x0000000000000000      0xf43
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0xfc ./System/Source/cortexm/_initialize_hardware.o
  .debug_abbrev  0x00000000000000fc      0x26e ./System/Source/cortexm/exception_handlers.o
@@ -1041,9 +1091,9 @@ END GROUP
  .debug_abbrev  0x0000000000000586      0x1a5 ./System/Source/Newlib/_startup.o
  .debug_abbrev  0x000000000000072b      0x18a ./System/Source/Cmsis/system_stm32f10x.o
  .debug_abbrev  0x00000000000008b5       0xa5 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_abbrev  0x000000000000095a      0x3e6 ./Code/main103c8t6_1.o
+ .debug_abbrev  0x000000000000095a      0x5e9 ./Code/main103c8t6_1.o
 
-.debug_line     0x0000000000000000     0x1821
+.debug_line     0x0000000000000000     0x1ce4
  *(.debug_line)
  .debug_line    0x0000000000000000      0x1a0 ./System/Source/cortexm/_initialize_hardware.o
  .debug_line    0x00000000000001a0      0x4cd ./System/Source/cortexm/exception_handlers.o
@@ -1051,7 +1101,7 @@ END GROUP
  .debug_line    0x000000000000094d      0x5c3 ./System/Source/Newlib/_startup.o
  .debug_line    0x0000000000000f10      0x3be ./System/Source/Cmsis/system_stm32f10x.o
  .debug_line    0x00000000000012ce      0x128 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_line    0x00000000000013f6      0x42b ./Code/main103c8t6_1.o
+ .debug_line    0x00000000000013f6      0x8ee ./Code/main103c8t6_1.o
 
 .debug_frame    0x0000000000000000      0x298
  *(.debug_frame)
@@ -1063,22 +1113,22 @@ END GROUP
  .debug_frame   0x0000000000000248       0x20 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_frame   0x0000000000000268       0x30 ./Code/main103c8t6_1.o
 
-.debug_str      0x0000000000000000    0x5a5de
+.debug_str      0x0000000000000000    0x5f03e
  *(.debug_str)
- .debug_str     0x0000000000000000    0x554ad ./System/Source/cortexm/_initialize_hardware.o
-                                      0x556df (size before relaxing)
- .debug_str     0x00000000000554ad     0x32f3 ./System/Source/cortexm/exception_handlers.o
-                                      0x589ba (size before relaxing)
- .debug_str     0x00000000000587a0      0x11d ./System/Source/Newlib/_exit.o
-                                       0x6187 (size before relaxing)
- .debug_str     0x00000000000588bd      0xec0 ./System/Source/Newlib/_startup.o
-                                       0x6950 (size before relaxing)
- .debug_str     0x000000000005977d      0x12d ./System/Source/Cmsis/system_stm32f10x.o
-                                      0x557ab (size before relaxing)
- .debug_str     0x00000000000598aa       0x5a ./System/Source/Cmsis/vectors_stm32f10x.o
-                                       0x3905 (size before relaxing)
- .debug_str     0x0000000000059904      0xcda ./Code/main103c8t6_1.o
-                                      0x562de (size before relaxing)
+ .debug_str     0x0000000000000000    0x554bc ./System/Source/cortexm/_initialize_hardware.o
+                                      0x556ee (size before relaxing)
+ .debug_str     0x00000000000554bc     0x32e8 ./System/Source/cortexm/exception_handlers.o
+                                      0x589c9 (size before relaxing)
+ .debug_str     0x00000000000587a4      0x11d ./System/Source/Newlib/_exit.o
+                                       0x6196 (size before relaxing)
+ .debug_str     0x00000000000588c1      0xec0 ./System/Source/Newlib/_startup.o
+                                       0x695f (size before relaxing)
+ .debug_str     0x0000000000059781      0x12d ./System/Source/Cmsis/system_stm32f10x.o
+                                      0x557ba (size before relaxing)
+ .debug_str     0x00000000000598ae       0x5a ./System/Source/Cmsis/vectors_stm32f10x.o
+                                       0x3914 (size before relaxing)
+ .debug_str     0x0000000000059908     0x5736 ./Code/main103c8t6_1.o
+                                      0x5e11a (size before relaxing)
 
 .debug_loc      0x0000000000000000      0x50b
  *(.debug_loc)
@@ -1112,40 +1162,50 @@ OUTPUT(f103c8t6_1a.elf elf32-littlearm)
  .debug_ranges  0x0000000000000110       0x10 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_ranges  0x0000000000000120       0x18 ./Code/main103c8t6_1.o
 
-.debug_macro    0x0000000000000000    0x11fdb
+.debug_macro    0x0000000000000000    0x12b3b
  .debug_macro   0x0000000000000000       0x80 ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000080      0xa9c ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000b1c       0x2e ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000b4a       0x22 ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000b6c      0x34e ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000eba       0x34 ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000eee       0x34 ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000000f22      0xb8e ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x0000000000001ab0     0xe90a ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x00000000000103ba       0x43 ./System/Source/cortexm/_initialize_hardware.o
- .debug_macro   0x00000000000103fd      0x16c ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010569       0x3a ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x00000000000105a3       0x22 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x00000000000105c5       0x5e ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010623       0x18 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x000000000001063b       0x94 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x00000000000106cf       0x35 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010704       0x34 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010738      0x174 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x00000000000108ac       0x57 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010903       0x58 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x000000000001095b       0x1f ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x000000000001097a       0x43 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x00000000000109bd       0x20 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x00000000000109dd      0x18e ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010b6b      0x339 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010ea4       0x10 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010eb4       0x35 ./System/Source/cortexm/exception_handlers.o
- .debug_macro   0x0000000000010ee9       0xf6 ./System/Source/Newlib/_exit.o
- .debug_macro   0x0000000000010fdf      0x10e ./System/Source/Newlib/_exit.o
- .debug_macro   0x00000000000110ed       0x8d ./System/Source/Newlib/_exit.o
- .debug_macro   0x000000000001117a      0x173 ./System/Source/Newlib/_startup.o
- .debug_macro   0x00000000000112ed       0x94 ./System/Source/Cmsis/system_stm32f10x.o
- .debug_macro   0x0000000000011381       0x34 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_macro   0x00000000000113b5       0x98 ./Code/main103c8t6_1.o
- .debug_macro   0x000000000001144d      0xb8e ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000000080      0xaa2 ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000000b22       0x2e ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000000b50       0x22 ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000000b72      0x34e ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000000ec0       0x34 ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000000ef4       0x34 ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000000f28      0xb8e ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000001ab6     0xe90a ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x00000000000103c0       0x43 ./System/Source/cortexm/_initialize_hardware.o
+ .debug_macro   0x0000000000010403      0x16c ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x000000000001056f       0x3a ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x00000000000105a9       0x22 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x00000000000105cb       0x5e ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010629       0x18 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010641       0x94 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x00000000000106d5       0x35 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x000000000001070a       0x34 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x000000000001073e      0x174 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x00000000000108b2       0x57 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010909       0x58 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010961       0x1f ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010980       0x43 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x00000000000109c3       0x20 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x00000000000109e3      0x18e ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010b71      0x339 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010eaa       0x10 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010eba       0x35 ./System/Source/cortexm/exception_handlers.o
+ .debug_macro   0x0000000000010eef       0xf6 ./System/Source/Newlib/_exit.o
+ .debug_macro   0x0000000000010fe5      0x10e ./System/Source/Newlib/_exit.o
+ .debug_macro   0x00000000000110f3       0x8d ./System/Source/Newlib/_exit.o
+ .debug_macro   0x0000000000011180      0x173 ./System/Source/Newlib/_startup.o
+ .debug_macro   0x00000000000112f3       0x94 ./System/Source/Cmsis/system_stm32f10x.o
+ .debug_macro   0x0000000000011387       0x34 ./System/Source/Cmsis/vectors_stm32f10x.o
+ .debug_macro   0x00000000000113bb      0x253 ./Code/main103c8t6_1.o
+ .debug_macro   0x000000000001160e      0xb8e ./Code/main103c8t6_1.o
+ .debug_macro   0x000000000001219c       0x12 ./Code/main103c8t6_1.o
+ .debug_macro   0x00000000000121ae      0x17b ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012329       0x35 ./Code/main103c8t6_1.o
+ .debug_macro   0x000000000001235e       0x18 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012376      0x1da ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012550       0x10 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012560       0x10 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012570      0x3c7 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012937       0xe4 ./Code/main103c8t6_1.o
+ .debug_macro   0x0000000000012a1b      0x120 ./Code/main103c8t6_1.o
