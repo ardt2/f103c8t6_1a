@@ -802,10 +802,10 @@ END GROUP
 
 .inits          0x0000000008000284       0x28
                 0x0000000008000284                __data_regions_array_start = .
-                0x0000000008000284        0x4 LONG 0x80006a0 LOADADDR (.data)
+                0x0000000008000284        0x4 LONG 0x80006e0 LOADADDR (.data)
                 0x0000000008000288        0x4 LONG 0x20000000 ADDR (.data)
                 0x000000000800028c        0x4 LONG 0x20000028 (ADDR (.data) + SIZEOF (.data))
-                0x0000000008000290        0x4 LONG 0x80006a0 LOADADDR (.data_CCMRAM)
+                0x0000000008000290        0x4 LONG 0x80006e0 LOADADDR (.data_CCMRAM)
                 0x0000000008000294        0x4 LONG 0x0 ADDR (.data_CCMRAM)
                 0x0000000008000298        0x4 LONG 0x0 (ADDR (.data_CCMRAM) + SIZEOF (.data_CCMRAM))
                 0x000000000800029c                __data_regions_array_end = .
@@ -837,7 +837,7 @@ END GROUP
 .flashtext
  *(.flashtext .flashtext.*)
 
-.text           0x00000000080002ac      0x3f4
+.text           0x00000000080002ac      0x434
  *(.text .text.*)
  .text.__initialize_hardware_early
                 0x00000000080002ac       0x18 ./System/Source/cortexm/_initialize_hardware.o
@@ -858,50 +858,50 @@ END GROUP
  .text.SystemCoreClockUpdate
                 0x00000000080003ec       0x94 ./System/Source/Cmsis/system_stm32f10x.o
                 0x00000000080003ec                SystemCoreClockUpdate
- .text.main     0x0000000008000480      0x210 ./Code/main103c8t6_1.o
+ .text.main     0x0000000008000480      0x250 ./Code/main103c8t6_1.o
                 0x0000000008000480                main
  .text.SysTick_Handler
-                0x0000000008000690       0x10 ./Code/main103c8t6_1.o
-                0x0000000008000690                SysTick_Handler
+                0x00000000080006d0       0x10 ./Code/main103c8t6_1.o
+                0x00000000080006d0                SysTick_Handler
  *(.rodata .rodata.* .constdata .constdata.*)
  *(vtable)
  *(.eh_frame*)
  *(.glue_7)
- .glue_7        0x00000000080006a0        0x0 linker stubs
+ .glue_7        0x00000000080006e0        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x00000000080006a0        0x0 linker stubs
+ .glue_7t       0x00000000080006e0        0x0 linker stubs
 
-.vfp11_veneer   0x00000000080006a0        0x0
- .vfp11_veneer  0x00000000080006a0        0x0 linker stubs
+.vfp11_veneer   0x00000000080006e0        0x0
+ .vfp11_veneer  0x00000000080006e0        0x0 linker stubs
 
-.v4_bx          0x00000000080006a0        0x0
- .v4_bx         0x00000000080006a0        0x0 linker stubs
+.v4_bx          0x00000000080006e0        0x0
+ .v4_bx         0x00000000080006e0        0x0 linker stubs
 
-.iplt           0x00000000080006a0        0x0
- .iplt          0x00000000080006a0        0x0 ./System/Source/cortexm/_initialize_hardware.o
+.iplt           0x00000000080006e0        0x0
+ .iplt          0x00000000080006e0        0x0 ./System/Source/cortexm/_initialize_hardware.o
 
-.rel.dyn        0x00000000080006a0        0x0
- .rel.iplt      0x00000000080006a0        0x0 ./System/Source/cortexm/_initialize_hardware.o
+.rel.dyn        0x00000000080006e0        0x0
+ .rel.iplt      0x00000000080006e0        0x0 ./System/Source/cortexm/_initialize_hardware.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x00000000080006a0                . = ALIGN (0x4)
-                0x00000000080006a0                __exidx_start = .
+                0x00000000080006e0                . = ALIGN (0x4)
+                0x00000000080006e0                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00000000080006a0                __exidx_end = .
-                0x00000000080006a0                . = ALIGN (0x4)
-                0x00000000080006a0                _etext = .
-                0x00000000080006a0                __etext = .
+                0x00000000080006e0                __exidx_end = .
+                0x00000000080006e0                . = ALIGN (0x4)
+                0x00000000080006e0                _etext = .
+                0x00000000080006e0                __etext = .
 
-.data_CCMRAM    0x0000000000000000        0x0 load address 0x00000000080006a0
+.data_CCMRAM    0x0000000000000000        0x0 load address 0x00000000080006e0
  FILL mask 0xff
  *(.data.CCMRAM .data.CCMRAM.*)
                 0x0000000000000000                . = ALIGN (0x4)
-                0x00000000080006a0                _sidata = LOADADDR (.data)
+                0x00000000080006e0                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000       0x28 load address 0x00000000080006a0
+.data           0x0000000020000000       0x28 load address 0x00000000080006e0
  FILL mask 0xff
                 0x0000000020000000                _sdata = .
                 0x0000000020000000                __data_start__ = .
@@ -923,7 +923,7 @@ END GROUP
                 0x0000000020000028                _edata = .
                 0x0000000020000028                __data_end__ = .
 
-.igot.plt       0x0000000020000028        0x0 load address 0x00000000080006c8
+.igot.plt       0x0000000020000028        0x0 load address 0x0000000008000708
  .igot.plt      0x0000000020000028        0x0 ./System/Source/cortexm/_initialize_hardware.o
 
 .bss_CCMRAM     0x0000000000000000        0x0
@@ -1073,7 +1073,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x659e
+.debug_info     0x0000000000000000     0x675d
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x327 ./System/Source/cortexm/_initialize_hardware.o
  .debug_info    0x0000000000000327      0xba4 ./System/Source/cortexm/exception_handlers.o
@@ -1081,9 +1081,9 @@ END GROUP
  .debug_info    0x000000000000183d      0x466 ./System/Source/Newlib/_startup.o
  .debug_info    0x0000000000001ca3      0x508 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_info    0x00000000000021ab       0xce ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_info    0x0000000000002279     0x4325 ./Code/main103c8t6_1.o
+ .debug_info    0x0000000000002279     0x44e4 ./Code/main103c8t6_1.o
 
-.debug_abbrev   0x0000000000000000      0xf43
+.debug_abbrev   0x0000000000000000      0xf57
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000       0xfc ./System/Source/cortexm/_initialize_hardware.o
  .debug_abbrev  0x00000000000000fc      0x26e ./System/Source/cortexm/exception_handlers.o
@@ -1091,9 +1091,9 @@ END GROUP
  .debug_abbrev  0x0000000000000586      0x1a5 ./System/Source/Newlib/_startup.o
  .debug_abbrev  0x000000000000072b      0x18a ./System/Source/Cmsis/system_stm32f10x.o
  .debug_abbrev  0x00000000000008b5       0xa5 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_abbrev  0x000000000000095a      0x5e9 ./Code/main103c8t6_1.o
+ .debug_abbrev  0x000000000000095a      0x5fd ./Code/main103c8t6_1.o
 
-.debug_line     0x0000000000000000     0x1ce4
+.debug_line     0x0000000000000000     0x1d36
  *(.debug_line)
  .debug_line    0x0000000000000000      0x1a0 ./System/Source/cortexm/_initialize_hardware.o
  .debug_line    0x00000000000001a0      0x4cd ./System/Source/cortexm/exception_handlers.o
@@ -1101,7 +1101,7 @@ END GROUP
  .debug_line    0x000000000000094d      0x5c3 ./System/Source/Newlib/_startup.o
  .debug_line    0x0000000000000f10      0x3be ./System/Source/Cmsis/system_stm32f10x.o
  .debug_line    0x00000000000012ce      0x128 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_line    0x00000000000013f6      0x8ee ./Code/main103c8t6_1.o
+ .debug_line    0x00000000000013f6      0x940 ./Code/main103c8t6_1.o
 
 .debug_frame    0x0000000000000000      0x298
  *(.debug_frame)
@@ -1113,7 +1113,7 @@ END GROUP
  .debug_frame   0x0000000000000248       0x20 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_frame   0x0000000000000268       0x30 ./Code/main103c8t6_1.o
 
-.debug_str      0x0000000000000000    0x5f03e
+.debug_str      0x0000000000000000    0x5f234
  *(.debug_str)
  .debug_str     0x0000000000000000    0x554bc ./System/Source/cortexm/_initialize_hardware.o
                                       0x556ee (size before relaxing)
@@ -1127,8 +1127,8 @@ END GROUP
                                       0x557ba (size before relaxing)
  .debug_str     0x00000000000598ae       0x5a ./System/Source/Cmsis/vectors_stm32f10x.o
                                        0x3914 (size before relaxing)
- .debug_str     0x0000000000059908     0x5736 ./Code/main103c8t6_1.o
-                                      0x5e11a (size before relaxing)
+ .debug_str     0x0000000000059908     0x592c ./Code/main103c8t6_1.o
+                                      0x5e345 (size before relaxing)
 
 .debug_loc      0x0000000000000000      0x50b
  *(.debug_loc)

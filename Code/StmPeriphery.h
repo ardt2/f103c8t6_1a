@@ -110,6 +110,9 @@ extern TSysTickTimer & SysTimer;
 
 
 // ============================================================================
+typedef _uintmod_t<uint8_t, 16> pins_t;
+
+// ----------------------------------------------------------------------------
 class TGpIO : public GPIO_TypeDef
 {
     private:
@@ -120,7 +123,7 @@ class TGpIO : public GPIO_TypeDef
         enum PinSpeed { _2MHz, _10Mhz, _50Mhz};
 
         // --------------------------------------------------------------------
-        void SetPinMode(PinMode mode, uint8_t pin)
+        void SetPinMode(PinMode mode, pins_t pin)
         {
             if(pin < 8)
             {

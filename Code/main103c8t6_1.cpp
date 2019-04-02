@@ -44,19 +44,24 @@ struct TRoadSign1
     uint8_t GBlinkCount = 2;
 };
 
+// ----------------------------------------------------------------------------
 TRoadSign1 RoadSign1;
 TRoadSign1::SignState signstate = TRoadSign1::Red;
+
+
+// ========================================================================
+
 
 // ----------------------------------------------------------------------------
 uint32_t ledtick;
 uint32_t signtick;
 
-
 // ===== main() ===============================================================
 void main(void)
 {
     // На данном этапе тактовый генератор уже должен быть настроен
-    // на высокую скорость. Смотри функцию _start();
+    // на высокую скорость. Смотри функцию _start(); Это сделано для того, чтобы
+    // инициализация проходила с той же скоростью, что и основная программа.
 
     // ------------------------------------------------------------------------
     Rcc.PortOn(GPIOportX::PortC);
@@ -86,20 +91,21 @@ void main(void)
 //	PortB.BRR = 0x01U << 13;
 //	PortB.BRR = 0x01U << 12;
 
+
     // ------------------------------------------------------------------------
     Rcc.PortOn(GPIOportX::PortA);
 
-    PortA.BSRR = 0x01U << 0; // * Высокий уровень
-
-    PortA.CRL |= 0x05U << 4 * 0; // * Открытый исток
-
-    PortA.BRR = 0x01U << 0; // * Низкий уровень.
-
     PortA.BSRR = 0x01U << 3; // * Высокий уровень
-
-    PortA.CRL |= 0x05U << 4 * 3; // * Открытый сток
-
+    PortA.CRL |= 0x05U << 4 * 3; // * Открытый исток
     PortA.BRR = 0x01U << 3; // * Низкий уровень.
+
+    PortA.BSRR = 0x01U << 4; // * Высокий уровень
+    PortA.CRL |= 0x05U << 4 * 4; // * Открытый сток
+    PortA.BRR = 0x01U << 4; // * Низкий уровень.
+
+    PortA.BSRR = 0x01U << 5; // * Высокий уровень
+    PortA.CRL |= 0x05U << 4 * 5; // * Открытый сток
+    PortA.BRR = 0x01U << 5; // * Низкий уровень.
 
     // ------------------------------------------------------------------------
     Rcc.Tim1on();
@@ -110,7 +116,7 @@ void main(void)
     Rcc.Peryphery1on(TRcc::i2c1);
 
 
-    // ------------------------------------------------------------------------
+    // ========================================================================
     ledtick = SysTimer.Tick;
     signtick = SysTimer.Tick + 500;
 
@@ -130,7 +136,7 @@ void main(void)
             else
             {
                 PortC.BSRR = 0x01U << 13;
-                ledtick += 4900;
+                ledtick += 1900;
             }
         }
 
@@ -138,23 +144,31 @@ void main(void)
         if(signtick == SysTimer.Tick)
         {
             PortB.BRR = 0x07U << 12;
+            PortA.BSRR = 0x07U << 3;
+
             signtick += RoadSign1.SignDuration[signstate];
             switch(signstate)
             {
                 case TRoadSign1::Red:
                     signstate = TRoadSign1::RedYellow;
                     PortB.BSRR = 0x01U << 14;
+
+                    PortA.BRR = 0x01U << 5;
                 break;
 
                 case TRoadSign1::RedYellow:
                     signstate = TRoadSign1::Green;
                     PortB.BSRR = 0x01U << 14;
                     PortB.BSRR = 0x01U << 13;
+
+                    PortA.BRR = 0x01U << 3;
                 break;
 
                 case TRoadSign1::Green:
                     signstate = TRoadSign1::GreenBlink;
                     PortB.BSRR = 0x01U << 12;
+
+                    PortA.BRR = 0x01U << 3;
                 break;
 
                 case TRoadSign1::GreenBlink:
@@ -170,11 +184,16 @@ void main(void)
                     }
 
                     RoadSign1.GBlinkCount++;
+
+                    PortA.BRR = 0x01U << 3;
                 break;
 
                 case TRoadSign1::Yellow:
                     signstate = TRoadSign1::Red;
                     PortB.BSRR = 0x01U << 13;
+
+                    PortA.BRR = 0x01U << 3;
+                    PortA.BRR = 0x01U << 4;
                 break;
 
                 default:    // Вот так и возникают нездоровые сенсации.

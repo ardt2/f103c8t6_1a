@@ -36,10 +36,39 @@ template<typename T, T bits> class _uintnbits_t
 {
     private:
         T Num;
+        uint8_t Shift = 0;
+
+        constexpr uint8_t ComputeShift(void)
+        {
+            // только для беззнаковых типов. Впрочем, есть макро IsSigned ).
+            T maxt = ~(T)0; // TODO:FIXME constexpr и определение в <limits>
+            uint8_t wt = 0;
+            for(; maxt != 0 ; wt++)
+            {
+                maxt >>= 1;
+            }
+
+            return wt;
+        }
 
     public:
-        _uintnbits_t() {}
+        _uintnbits_t(T n) : Num(n)
+        {
+            //__INT_N(uchar8_t);
+            // uchar16_t a;
+
+            // только для беззнаковых типов.
+            T maxt = ~(T)0; // TODO:FIXME constexpr и определение в <limits>
+            for(Shift = 0; maxt != 0 ; Shift++)
+            {
+                maxt >>= 1;
+            }
+
+        }
 };
+
+// ----------------------------------------------------------------------------
+typedef _uintnbits_t<uint8_t, 6> byte6bit_t;
 
 
 // ============================================================================
@@ -51,10 +80,23 @@ class _uintmod_t // : public uinit32_t – так не получится, ув�
 
     //
     public:
-        _uintmod_t(T i)
+        _uintmod_t(T n) : Num(n)
         {
 
         }
+
+        // --------------------------------------------------------------------
+        operator T & ()     // const const ! Ссылка "&" тут не нужна, конечно.
+        {                   // А операторы +=, -=, ++, -- нужны. TODO
+            return Num;
+        }
+        // --------------------------------------------------------------------
+//        T operator-=(T r)
+//        {
+//            Num -= r;
+//            return Num;
+//        }
+
 };
 
 // Число по модулю.
@@ -72,7 +114,7 @@ struct _unsignedmod
 template<unsigned char bits, unsigned char maxinbits = 8>
 struct _wordbits
 {
-    // Тут нужен static_assert(maxinbits > bits);
+    // Тут нужен static_assert(maxinbits > bits); TODO
     // ========================================================================
     unsigned short x;
 
@@ -83,7 +125,7 @@ struct _wordbits
 };
 
 // ----------------------------------------------------------------------------
-typedef _wordbits<6> Word6bit;
+typedef _wordbits<6> Word6bit; // FIXME
 
 
 // Укажи здесь "extern" объявления общих для всего проекта переменных.

@@ -77,6 +77,114 @@ class TLed
 extern TLed GreenLed;
 
 
+// красный, красный с желтым, зеленый, зеленый мигающий, желтый, красный.
+// При этом длительность сигнала "красный с желтым" рекомендуется устанавливать
+// не более 2 с, длительность желтого сигнала — 3 с.
+// ============================================================================
+class TRoadLight
+{
+    // TODO:
+    private:
+        enum TState
+        {
+            Side1_Red, Side1_RedYellow, Side1_Green, Side1_GreenBlink, Side1_Yellow,
+        };
+
+        // --------------------------------------------------------------------
+        TState LightState;
+
+
+        // --------------------------------------------------------------------
+        enum SignState { Red = 0, RedYellow, Green, GreenBlink, Yellow, };
+        uint16_t const SignDuration [5] = { 12000, 2000, 7000, 500, 3000};
+
+
+        // --------------------------------------------------------------------
+        uint32_t InternalTick;
+        uint8_t BlinkCount = 2;
+
+        // --------------------------------------------------------------------
+        void Side1off(void);
+        // --------------------------------------------------------------------
+        void Side1RedOn(void);
+        void Side1RedYellowOn(void);
+        void Side1GreenOn(void);
+        void Side1BlinkGreen(void);
+
+
+    public:
+        void DriveRoadLight(void)
+        {
+            if(InternalTick == SysTimer.Tick)
+            {
+                PortB.BRR = 0x07U << 12;
+                PortA.BSRR = 0x07U << 3;
+
+                InternalTick += SignDuration[LightState];
+                switch(LightState)
+                {
+                    case Side1_Red:
+                        LightState = Side1_RedYellow;
+                        PortB.BSRR = 0x01U << 14;
+
+                        PortA.BRR = 0x01U << 5;
+                    break;
+
+                    case Side1_RedYellow:
+                        LightState = Side1_Green;
+                        PortB.BSRR = 0x01U << 14;
+                        PortB.BSRR = 0x01U << 13;
+
+                        PortA.BRR = 0x01U << 3;
+                    break;
+
+                    case Side1_Green:
+                        LightState = Side1_GreenBlink;
+                        PortB.BSRR = 0x01U << 12;
+
+                        PortA.BRR = 0x01U << 3;
+                    break;
+
+                    case Side1_GreenBlink:
+                        if(BlinkCount % 2 == 0)
+                            PortB.BRR = 0x01U << 12;
+                        else
+                            PortB.BSRR = 0x01U << 12;
+
+                        if(BlinkCount == 9)
+                        {
+                            LightState = Side1_Yellow;
+                            BlinkCount = 2;
+                        }
+
+                        BlinkCount++;
+
+                        PortA.BRR = 0x01U << 3;
+                    break;
+
+                    case Side1_Yellow:
+                        LightState = Side1_Red;
+                        PortB.BSRR = 0x01U << 13;
+
+                        PortA.BRR = 0x01U << 3;
+                        PortA.BRR = 0x01U << 4;
+                    break;
+
+                    default:    // Вот так и возникают нездоровые сенсации.
+                        PortB.BSRR = 0x07U << 12;
+                        InternalTick += 10000;
+
+                }
+
+            }
+        }
+
+};
+
+// ----------------------------------------------------------------------------
+extern TRoadLight RoadLight;
+
+
 // ============================================================================
 // ----------------------------------------------------------------------------
 // TODO
