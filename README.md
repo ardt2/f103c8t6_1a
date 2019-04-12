@@ -3,3 +3,4 @@
 Вспомогательные шаблонные классы.
 
 Светофорчик <a href="https://youtu.be/ULSw1xzfcC4">на Youtube</a>.
+Блог в ЖЖ <a href="https://ardt2.livejournal.com">ardt2.livejournal.com</a>.

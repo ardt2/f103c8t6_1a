@@ -22,13 +22,15 @@ volatile uint32_t TSysTickTimer::Tick = 0; // Конструктор удале�
                                            // static поле инициализируется здесь.
 
 // ============================================================================
-TRcc & Rcc = *static_cast<TRcc *>RCC; // ( )
+TRcc & Rcc = *static_cast<TRcc *>RCC; // TODO: Если глобальных переменных станет
+                                      // много, можно вынести их в отдельный файл.
 // ----------------------------------------------------------------------------
 TSysTickTimer & SysTimer = *static_cast<TSysTickTimer *>TIM1;
+
 // ----------------------------------------------------------------------------
-TGpIO & PortA = *static_cast<TGpIO *>GPIOA;
-TGpIO & PortB = *static_cast<TGpIO *>GPIOB;
-TGpIO & PortC = *static_cast<TGpIO *>GPIOC;
+TGPIO & PortA = *static_cast<TGPIO *>GPIOA;
+TGPIO & PortB = *static_cast<TGPIO *>GPIOB;
+TGPIO & PortC = *static_cast<TGPIO *>GPIOC;
 
 
 // красный, красный с желтым, зеленый, зеленый мигающий, желтый, красный.
@@ -49,12 +51,15 @@ TRoadSign1 RoadSign1;
 TRoadSign1::SignState signstate = TRoadSign1::Red;
 
 
-// ========================================================================
-
+// ============================================================================
+#include"AuxVariadic.h"
 
 // ----------------------------------------------------------------------------
 uint32_t ledtick;
 uint32_t signtick;
+
+__IO uint32_t rega, regb;
+TBits TestBits;
 
 // ===== main() ===============================================================
 void main(void)
@@ -63,57 +68,67 @@ void main(void)
     // на высокую скорость. Смотри функцию _start(); Это сделано для того, чтобы
     // инициализация проходила с той же скоростью, что и основная программа.
 
-    // ------------------------------------------------------------------------
-    Rcc.PortOn(GPIOportX::PortC);
-
-    PortC.BSRR = 0x01U << 13; // * Высокий уровень
-
-    PortC.CRH |= 0x05U << 4 * 5; // *
-
-    PortC.BRR = 0x01U << 13; // * Низкий уровень.
+    rega = 0x00F0;
+//    a = Foo<1, 2, 3, 4>();
+//    a = Foo3();
+//    a = linearBitsUnrolling<1, 2, 3, 4, 10>();
+//    linearBitsUnrolling2<>(0x01U);
 
     // ------------------------------------------------------------------------
-    Rcc.PortOn(GPIOportX::PortB);
- 	PortB.CRH &= ~(0x0FU << 4 * 4);
-	PortB.CRH |= 0x02U << 4 * 4;  // PushPull (TotemPole или двухтактный выход).
+    // Инициализируем порт А.
+    // Rcc.PortOn(GPort::A);
+//    Rcc.PortOn<GPort::A>();
+    Rcc.PortOn<GPort::A, GPort::B, GPort::C>();
 
- 	PortB.CRH &= ~(0x0FU << (4 * 5));
-	PortB.CRH |= 0x02U << (4 * 5);
+#define OD2MHZ 0x0101U
+#define PP2MHZ 0x0001U
+#define LOWBITMASK(mask, pin) (mask << pin * 4)
+#define HIGHBITMASK(mask, pin) (mask << (pin - 8) * 4)
 
- 	PortB.CRH &= ~(0x0FU << (4 * 6));
-	PortB.CRH |= 0x02U << (4 * 6);
+//    PortA.CRL |= OD2MHZ | OD2MHZ << 1 * 4 | OD2MHZ << 2 * 4 | OD2MHZ << 3 * 4 | OD2MHZ << 4 * 4 | OD2MHZ << 5 * 4;
+    PortA.CRL |=
+            LOWBITMASK(OD2MHZ, 0) | LOWBITMASK(OD2MHZ, 1) | LOWBITMASK(OD2MHZ, 2)
+          | LOWBITMASK(OD2MHZ, 3) | LOWBITMASK(OD2MHZ, 4) | LOWBITMASK(OD2MHZ, 5);
+//    TestBits.linearBitsUnrolling2<1, 2, 3, 4, 10>(0x01U);
+//    TestBits.linearBitsUnrolling2<0, 4>(0x01U);
 
-	PortB.BSRR = 0x01U << 12;
-	PortB.BSRR = 0x01U << 13;
-	PortB.BSRR = 0x01U << 14;
+    PortA.ODR = 0xFFFF; // 16 бит.  GPin::P3, GPin::P4
 
-//	PortB.BRR = 0x01U << 14;
-//	PortB.BRR = 0x01U << 13;
-//	PortB.BRR = 0x01U << 12;
+//    PortA.SetPinModeSpeed
+//    <GPin::P6, GPin::P7, GPin::P8, GPin::P9, GPin::P10, GPin::P11, GPin::P12, GPin::P13, GPin::P14, GPin::P15>
+//    (PinMode1::Input, PinFunct1::AnalogInput);
 
+    PortA.ODR = 0xFFFF & ~(uint32_t)0x02U;
 
-    // ------------------------------------------------------------------------
-    Rcc.PortOn(GPIOportX::PortA);
-
-    PortA.BSRR = 0x01U << 3; // * Высокий уровень
-    PortA.CRL |= 0x05U << 4 * 3; // * Открытый исток
-    PortA.BRR = 0x01U << 3; // * Низкий уровень.
-
-    PortA.BSRR = 0x01U << 4; // * Высокий уровень
-    PortA.CRL |= 0x05U << 4 * 4; // * Открытый сток
-    PortA.BRR = 0x01U << 4; // * Низкий уровень.
-
-    PortA.BSRR = 0x01U << 5; // * Высокий уровень
-    PortA.CRL |= 0x05U << 4 * 5; // * Открытый сток
-    PortA.BRR = 0x01U << 5; // * Низкий уровень.
 
     // ------------------------------------------------------------------------
-    Rcc.Tim1on();
-    SysTimer.Start();
+    Rcc.PortOn(GPort::B);
+//    PortB.CRL |= LOWBITMASK(PP2MHZ, 0) | LOWBITMASK(PP2MHZ, 1) | LOWBITMASK(PP2MHZ, 2);
+//    PortB.SetPinModeSpeed
+//    <GPin::P12, GPin::P13, GPin::P14>
+//    (PinMode2::Out2MHz, PinFunct2::PushPull);
+
+//    PortB.SetPinModeSpeed
+//    <GPin::P0, GPin::P1, GPin::P2, GPin::P3, GPin::P4, GPin::P5, GPin::P6, GPin::P7,
+//     GPin::P8, GPin::P9, GPin::P10, GPin::P11,      GPin::P15>
+//    (PinMode1::Input, PinFunct1::AnalogInput);
+
+    // ------------------------------------------------------------------------
+    Rcc.PortOn(GPort::C); // Единственный свободный пин на этом порту.
+
+//    PortC.SetPinModeSpeed<GPin::P13>(PinMode2::Out2MHz, PinFunct2::OpenDrain);
+    PortC.CRH |= OD2MHZ << 13;
+
+    PortC.BSRR = (uint32_t)0x0101U << (13U - 8U) * 4;
 
 
     // ------------------------------------------------------------------------
     Rcc.Peryphery1on(TRcc::i2c1);
+
+
+    // ------------------------------------------------------------------------
+    Rcc.Tim1on();
+    SysTimer.Start();
 
 
     // ========================================================================

@@ -36,15 +36,10 @@
 // ЦОС и типы с фиксированной точкой
 #include <arm_math.h>   // define ARM_MATH_CM3 в настройках проекта.
 
-#include <limits>   // unsigned_char_max_value == (uint8_t)(-1U) и т. д. и т. п.
+#include <limits>       // unsigned_char_max_value == (uint8_t)(-1U) и т. д. и т. п.
 
 // ----------------------------------------------------------------------------
 #include "AuxiliaryUnits.h"
-
-
-// Укажи здесь объявления типов, общих для всего проекта переменных.
-// ----------------------------------------------------------------------------
-typedef uint8_t byte_t;  // Для совместимости.
 
 
 // Укажи здесь включаемые файлы взаимодействия с системами проекта.
@@ -52,20 +47,26 @@ typedef uint8_t byte_t;  // Для совместимости.
 #include "StmPeriphery.h"
 
 
+// Укажи здесь объявления типов, общих для всего проекта переменных.
+// ----------------------------------------------------------------------------
+typedef uint8_t byte_t;  // Для совместимости.
+
+
+// Классы периферии.
 // ============================================================================
 class TLed
 {
     private:
-        TGpIO & port;
-        uint8_t pinnum;
+        TGPIO & Port;
+        GPin Pin;
 
     // ========================================================================
     public:
-        TLed(TGpIO & gpio, uint8_t n) : port(gpio), pinnum(n) {}
+        TLed(TGPIO & port, GPin pin) : Port(port), Pin(pin) {}
 
         void On(void)
         {
-            port.On(pinnum);
+//            port.On(pinnum);
         }
         void Off(void);
         void Toggle(void);

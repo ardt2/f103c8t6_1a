@@ -48,6 +48,9 @@ endif
 SECONDARY_FLASH += \
 f103c8t6_1a.hex \
 
+SECONDARY_LIST += \
+f103c8t6_1a.lst \
+
 SECONDARY_SIZE += \
 f103c8t6_1a.siz \
 
@@ -69,6 +72,12 @@ f103c8t6_1a.hex: f103c8t6_1a.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
+f103c8t6_1a.lst: f103c8t6_1a.elf
+	@echo 'Invoking: GNU ARM Cross Create Listing'
+	arm-none-eabi-objdump --source --all-headers --demangle --line-numbers --wide "f103c8t6_1a.elf" > "f103c8t6_1a.lst"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 f103c8t6_1a.siz: f103c8t6_1a.elf
 	@echo 'Invoking: GNU ARM Cross Print Size'
 	arm-none-eabi-size --format=berkeley "f103c8t6_1a.elf"
@@ -77,10 +86,10 @@ f103c8t6_1a.siz: f103c8t6_1a.elf
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(SECONDARY_FLASH)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(CPP_DEPS) f103c8t6_1a.elf
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(SECONDARY_FLASH)$(SECONDARY_LIST)$(SECONDARY_SIZE)$(ASM_DEPS)$(S_UPPER_DEPS)$(C_DEPS)$(CPP_DEPS) f103c8t6_1a.elf
 	-@echo ' '
 
-secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_SIZE)
+secondary-outputs: $(SECONDARY_FLASH) $(SECONDARY_LIST) $(SECONDARY_SIZE)
 
 .PHONY: all clean dependents
 
