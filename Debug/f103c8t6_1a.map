@@ -1091,7 +1091,7 @@ END GROUP
  .debug_abbrev  0x00000000000008ca       0xa5 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_abbrev  0x000000000000096f      0x7ed ./Code/main103c8t6_1.o
 
-.debug_line     0x0000000000000000     0x21d5
+.debug_line     0x0000000000000000     0x21d1
  *(.debug_line)
  .debug_line    0x0000000000000000      0x1a7 ./System/Source/cortexm/_initialize_hardware.o
  .debug_line    0x00000000000001a7      0x545 ./System/Source/cortexm/exception_handlers.o
@@ -1099,7 +1099,7 @@ END GROUP
  .debug_line    0x00000000000009d3      0x62e ./System/Source/Newlib/_startup.o
  .debug_line    0x0000000000001001      0x375 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_line    0x0000000000001376      0x136 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_line    0x00000000000014ac      0xd29 ./Code/main103c8t6_1.o
+ .debug_line    0x00000000000014ac      0xd25 ./Code/main103c8t6_1.o
 
 .debug_frame    0x0000000000000000      0x27c
  *(.debug_frame)

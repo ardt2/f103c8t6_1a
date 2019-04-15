@@ -73,8 +73,8 @@ void main(void)
     // Инициализируем порт А.
     Rcc.PortOn<GPort::A, GPort::B, GPort::C>();
 
-    PortA.CRL |= FunctBitsTest2<GPin::P1, GPin::P3, GPin::P5>(); //  ,GPin::P10, GPin::P13>();
-    PortA.CRL |= FunctBitsTest2<GPin::P1, GPin::P2, GPin::P6, GPin::P10, GPin::P13>();
+//    PortA.CRL |= FunctBitsTest2<GPin::P1, GPin::P3, GPin::P5>(); //  ,GPin::P10, GPin::P13>();
+//    PortA.CRL |= FunctBitsTest2<GPin::P1, GPin::P2, GPin::P6, GPin::P10, GPin::P13>();
 
     PortA.ODR = 0xFFFFU; // 16 бит.
     PortB.ODR = 0x00U;
