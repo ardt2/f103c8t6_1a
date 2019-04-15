@@ -52,14 +52,14 @@ TRoadSign1::SignState signstate = TRoadSign1::Red;
 
 
 // ============================================================================
+__IO uint32_t rega, regb;
 #include"AuxVariadic.h"
+
+// TBits TestBits;
 
 // ----------------------------------------------------------------------------
 uint32_t ledtick;
 uint32_t signtick;
-
-__IO uint32_t rega, regb;
-TBits TestBits;
 
 // ===== main() ===============================================================
 void main(void)
@@ -68,62 +68,44 @@ void main(void)
     // на высокую скорость. Смотри функцию _start(); Это сделано для того, чтобы
     // инициализация проходила с той же скоростью, что и основная программа.
 
-    rega = 0x00F0;
-//    a = Foo<1, 2, 3, 4>();
-//    a = Foo3();
-//    a = linearBitsUnrolling<1, 2, 3, 4, 10>();
-//    linearBitsUnrolling2<>(0x01U);
 
     // ------------------------------------------------------------------------
     // Инициализируем порт А.
-    // Rcc.PortOn(GPort::A);
-//    Rcc.PortOn<GPort::A>();
     Rcc.PortOn<GPort::A, GPort::B, GPort::C>();
 
-#define OD2MHZ 0x0101U
-#define PP2MHZ 0x0001U
-#define LOWBITMASK(mask, pin) (mask << pin * 4)
-#define HIGHBITMASK(mask, pin) (mask << (pin - 8) * 4)
+    PortA.CRL |= FunctBitsTest2<GPin::P1, GPin::P3, GPin::P5>(); //  ,GPin::P10, GPin::P13>();
+    PortA.CRL |= FunctBitsTest2<GPin::P1, GPin::P2, GPin::P6, GPin::P10, GPin::P13>();
 
-//    PortA.CRL |= OD2MHZ | OD2MHZ << 1 * 4 | OD2MHZ << 2 * 4 | OD2MHZ << 3 * 4 | OD2MHZ << 4 * 4 | OD2MHZ << 5 * 4;
-    PortA.CRL |=
-            LOWBITMASK(OD2MHZ, 0) | LOWBITMASK(OD2MHZ, 1) | LOWBITMASK(OD2MHZ, 2)
-          | LOWBITMASK(OD2MHZ, 3) | LOWBITMASK(OD2MHZ, 4) | LOWBITMASK(OD2MHZ, 5);
-//    TestBits.linearBitsUnrolling2<1, 2, 3, 4, 10>(0x01U);
-//    TestBits.linearBitsUnrolling2<0, 4>(0x01U);
+    PortA.ODR = 0xFFFFU; // 16 бит.
+    PortB.ODR = 0x00U;
+    PortC.ODR =  0xFFFFU;
 
-    PortA.ODR = 0xFFFF; // 16 бит.  GPin::P3, GPin::P4
+    // ------------------------------------------------------------------------
+    PortA.SetupPins
+    <GPin::P0, GPin::P1, GPin::P2, GPin::P3, GPin::P4, GPin::P5>
+    (PinMode2::Out2MHz, PinFunct2::OpenDrain);
 
-//    PortA.SetPinModeSpeed
-//    <GPin::P6, GPin::P7, GPin::P8, GPin::P9, GPin::P10, GPin::P11, GPin::P12, GPin::P13, GPin::P14, GPin::P15>
-//    (PinMode1::Input, PinFunct1::AnalogInput);
+    PortA.SetupPins
+    <GPin::P6, GPin::P7, GPin::P8, GPin::P9, GPin::P10, GPin::P11, GPin::P12, GPin::P13, GPin::P14, GPin::P15>
+    (PinMode1::Input, PinFunct1::AnalogInput);
 
-    PortA.ODR = 0xFFFF & ~(uint32_t)0x02U;
+    // ------------------------------------------------------------------------
+    PortB.SetupPins
+    <GPin::P12, GPin::P13, GPin::P14>
+    (PinMode2::Out2MHz, PinFunct2::PushPull);
+
+    PortB.SetupPins
+    <GPin::P0, GPin::P1, GPin::P2, GPin::P3, GPin::P4, GPin::P5, GPin::P6, GPin::P7,
+     GPin::P8, GPin::P9, GPin::P10, GPin::P11,      GPin::P15>
+    (PinMode1::Input, PinFunct1::AnalogInput);
+
+    // ------------------------------------------------------------------------
+    // Единственный свободный пин на этом порту.
+    PortC.SetupPins<GPin::P13>(PinMode2::Out2MHz, PinFunct2::OpenDrain);
 
 
     // ------------------------------------------------------------------------
-    Rcc.PortOn(GPort::B);
-//    PortB.CRL |= LOWBITMASK(PP2MHZ, 0) | LOWBITMASK(PP2MHZ, 1) | LOWBITMASK(PP2MHZ, 2);
-//    PortB.SetPinModeSpeed
-//    <GPin::P12, GPin::P13, GPin::P14>
-//    (PinMode2::Out2MHz, PinFunct2::PushPull);
-
-//    PortB.SetPinModeSpeed
-//    <GPin::P0, GPin::P1, GPin::P2, GPin::P3, GPin::P4, GPin::P5, GPin::P6, GPin::P7,
-//     GPin::P8, GPin::P9, GPin::P10, GPin::P11,      GPin::P15>
-//    (PinMode1::Input, PinFunct1::AnalogInput);
-
-    // ------------------------------------------------------------------------
-    Rcc.PortOn(GPort::C); // Единственный свободный пин на этом порту.
-
-//    PortC.SetPinModeSpeed<GPin::P13>(PinMode2::Out2MHz, PinFunct2::OpenDrain);
-    PortC.CRH |= OD2MHZ << 13;
-
-    PortC.BSRR = (uint32_t)0x0101U << (13U - 8U) * 4;
-
-
-    // ------------------------------------------------------------------------
-    Rcc.Peryphery1on(TRcc::i2c1);
+//    Rcc.Peryphery1on(TRcc::i2c1);
 
 
     // ------------------------------------------------------------------------

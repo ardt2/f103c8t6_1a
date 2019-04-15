@@ -66,8 +66,10 @@ class TRcc: public ::RCC_TypeDef
 #define BITMASK 0x01    // Макроопределение здесь гарантирует нам, что константа
 #define MASKWIDTH 1     // не будет перенесена компилятором в память. Брать от
                         // неё указатель мы не собираемся и у нас есть #undef.
+                        // (Поменяем потом на const uint32_t и посмотрим.)
     private:
-        // Функциональное пролистывание (fold) пакета параметров рекурсией. С++ 11/14
+        // Функциональное пролистывание (fold) пакета параметров рекурсией. С++ 11/14.
+        // Более известное как распаковка параметров.
         template<uint32_t bitmask>
         inline constexpr uint32_t SetBits(void)
         {
@@ -165,19 +167,20 @@ enum class GPin : uint8_t
 };
 enum class PinFunct1 : uint32_t
 {
-    AnalogInput = 0x00U, FloatInput = 0x01U, PullInput = 0x02U, // 0x11 - Резерв. ODR - Подтяжка верх/земля.
+    // 0x11 - Резерв. ODR - Подтяжка верх/земля.
+    AnalogInput = 0x00U << 2U, FloatInput = 0x01U << 2U, PullInput = 0x02U << 2U,
 };
 enum class PinMode1 : uint32_t // << 2
 {
-    Input = 0x00U << 2U,
+    Input = 0x00U,
 };
-enum class PinFunct2 : uint32_t
+enum class PinFunct2 : uint32_t // << 2
 {
-    PushPull = 0x00U, OpenDrain = 0x01U, AF_PushPull = 0x02U , AF_OpenDrain = 0x03U,
+    PushPull = 0x00U << 2U, OpenDrain = 0x01U << 2U, AF_PushPull = 0x02U << 2U, AF_OpenDrain = 0x03U << 2U,
 };
-enum class PinMode2 : uint32_t // << 2
+enum class PinMode2 : uint32_t
 {
-    Out2MHz = 0x02U << 2U, Out10Mhz = 0x01U << 2U, Out50Mhz = 0x03U << 2U,
+    Out2MHz = 0x02U, Out10Mhz = 0x01U, Out50Mhz = 0x03U,
 };
 
 // ----------------------------------------------------------------------------
@@ -188,169 +191,133 @@ class TGPIO : public GPIO_TypeDef
         ~TGPIO() = delete;
 
 
+    // ========================================================================
+    public:
+        // Соответствие пар mode/funct проще сделать на типизации, чем функционально.
+        template<GPin... pins> // GPin pin1,
+        void SetupPins(PinMode1 mode, PinFunct1 funct)
+        {
+            ClearSetBits<(uint8_t)pins...>((uint32_t)funct | (uint32_t)mode);
+        }
+        // --------------------------------------------------------------------
+        template<GPin... pins> // GPin pin1,
+        void SetupPins(PinMode2 mode, PinFunct2 funct)
+        {
+            ClearSetBits<(uint8_t)pins...>((uint32_t)funct | (uint32_t)mode);
+        }
+
+
         // ====================================================================
 //        const uint32_t _2bitsmask = (uint32_t)0x03U;  // Обязательно используй прагму размещения,
 //        const uint32_t _4bitsmask = (uint32_t)0x0FU;  // иначе константа не определится. (( Фигня.
-#define _2bitsmask (uint32_t)0x03U
-#define _4bitsmask (uint32_t)0x0FU
+// #define _2bitsmask (uint32_t)0x03U
+// #define _4bitsmask (uint32_t)0x0FU
 
-#define _4BITSMASK 0x0FU
-
-
-    // ========================================================================
-    public:
-//        template<PinL... pins>
-//        void SetPinsMode(PinMode2 mode, PinFunct2 funct) // Соответствие пар mode/funct проще сделать
-//        {                                                // на типизации, чем функционально.
-//
-//        }
-//
-//        template<PinH... pins>
-//        void SetPinsMode(PinMode2 mode, PinFunct2 funct)
-//        {
-//
-//        }
-
-
-#define maskwidth 1 // Лучше макроопределением, а потом undefine.
+#define _MASKWIDTH 4U       // Лучше макроопределением, а потом undefine.
+#define _4BITSMASK 0x0FU    // Потом проверим с const uint32_t.
 // ----------------------------------------------------------------------------
 // Повторение - мать учения. http://scrutator.me/post/2017/08/11/cpp17_lang_features_p1.aspx
-class TBits
-{
-    private:
+
+    public:
+        template<uint8_t ... bits>
+        inline void ClearSetBits(uint32_t mask) //
+        {
+            static_assert(sizeof...(bits) > 0, "Не указаны биты.");
+            static_assert(sizeof...(bits) <= 16, "Указано количество бит более разрядности (> 16).");
+            // bits должен быть от константного типа (enum), чтобы это работало.
+            //static_assert(!hasduplicates<bits...>(), "Найдены повторяющиеся биты.");
+            if(sizeof...(bits) == 0) return;
+
+            if(haslowbits<bits...>())
+            {
+                // uint32_t tmp = ;
+                CRL &= ~lowbits<bits...>(_4BITSMASK); // tmp;
+                // tmp =
+                CRL |= lowbits<bits...>(mask); // tmp;
+            }
+
+            else if(hashighbits<bits...>())
+            {
+                CRH &= ~highbits<bits...>(_4BITSMASK);
+                CRH |= highbits<bits...>(mask);
+            }
+        }
+
+    public:
+//        constexpr uint32_t createmask(uint32_t mask) { return mask; }
+//        template<uint8_t ... bits>
+//        inline void clearsetbits(const uint32_t mask) //
+//        {
+//            static_assert(sizeof...(bits) > 0, "Не указаны биты.");
+//            static_assert(sizeof...(bits) <= 16, "Указано количество бит более разрядности (> 16).");
+//            // bits должен быть от константного типа (enum), чтобы это работало.
+//            //static_assert(!hasduplicates<bits...>(), "Найдены повторяющиеся биты.");
+//
+//            if(haslowbits<bits...>())
+//            {
+//                // uint32_t tmp = ;
+//                CRL &= ~lowbits<bits...>(_4BITSMASK); // tmp;
+//                //tmp = ;
+//                CRL |= lowbits<bits...>(createmask(mask));
+//            }
+//
+//            if(hashighbits<bits...>())
+//            {
+//                CRH &= ~highbits<bits...>(_4BITSMASK);
+//                CRH |= highbits<bits...>(mask);
+//            }
+//        }
+
         template<uint8_t ... bit>
         inline constexpr bool hasduplicates(void) //
         {
             // return (... == bit) != true; // Не так просто. )) Но написать функционально
                                             // поиск повторений в массиве не так уж и
-            return false;                   // сложно. Но нудно.
+            return false;                   // сложно, наверное. Но нудно.
+        }
+
+        // Перелистывание (folding), сначала было в стиле C++ 14 написано, как рекурсия
+        // шаблонной ф-ции. Но на C++ 17 это проще, несомненно и устраняет побочный
+        // (не устраняет и эффект вызван другим)
+        // эффект отдельного разворачивания замыкающего вызова рекурсии.
+        // (Более известно как распаковка пакета параметров.)
+        // --------------------------------------------------------------------
+        template<uint8_t... bit>
+        inline constexpr bool haslowbits(void)   //
+        {
+            return (... + (bit < 8 ? bit + 1 : 0)) != 0;       //
+        }
+        template<uint8_t... bit>
+        inline uint32_t constexpr lowmask(void)
+        {
+            return (... & (bit < 8 ? _4BITSMASK << bit - 8 * _MASKWIDTH : 0xFFFFFFFFU));
+        }
+        template<uint8_t... bit>
+        inline constexpr uint32_t lowbits(uint32_t mask)
+        {
+            return (... | (bit < 8 ? mask << bit * _MASKWIDTH : 0));
         }
 
         // --------------------------------------------------------------------
-        inline constexpr uint8_t lowbit(uint8_t bit) //
+        template<uint8_t... bit>
+        inline constexpr bool hashighbits(void)
         {
-            return bit < 8 ? bit : 0;
+            return (... + (bit >= 8 ? bit : 0)) != 0;
         }
-        template<uint8_t ... bit>
-        inline constexpr uint8_t haslowbits(void) //
+        template<uint8_t... bit>
+        inline uint32_t constexpr highmask(void)
         {
-            return (... + lowbit(bit)) != 0; // Перелистывание (folding), сначала было в стиле
-        }   // C++ 14 написано, как рекурсия шаблонной ф-ции. Но на C++ 17 это проще, несомненно.
-        inline constexpr uint32_t lowbitmask(uint8_t bit, uint32_t mask) //
-        {
-            return bit < 8 ? mask << bit * maskwidth : 0;
+            return (... & (bit >= 8 ? _4BITSMASK << (bit - 8) * _MASKWIDTH : 0xFFFFFFFFU));
         }
-        template<uint8_t ... bit>
-        inline constexpr uint32_t lowbits(uint32_t mask)
-        {
-            return (... | lowbitmask(bit, mask));
-        }
-        // --------------------------------------------------------------------
-        inline constexpr uint8_t highbit(uint8_t bit) //
-        {
-            return bit >= 8 ? bit : 0;
-        }
-        template<uint8_t ... bit>
-        inline constexpr uint8_t hashighbits(void)
-        {
-            return (... + highbit(bit)) != 0;
-        }
-        inline constexpr uint32_t highbitmask(uint8_t bit, uint32_t mask) //
-        {
-            return bit >= 8 ? mask << (bit - 8) * maskwidth : 0;
-        }
-        template<uint8_t ... bit>
+        template<uint8_t... bit>
         inline uint32_t constexpr highbits(uint32_t mask)
         {
-            return (... | highbitmask(bit, mask));
+            return (... | (bit >= 8 ? mask << (bit - 8) * _MASKWIDTH : 0U));
         }
+
 
     // ========================================================================
     public:
-        template<uint8_t ... bits>
-        inline void linearBitsUnrolling2(uint32_t mask) //
-        {
-            static_assert(sizeof...(bits) > 0, "Не указаны биты.");
-            static_assert(sizeof...(bits) <= 16, "Указано количество бит более разрядности (16).");
-            // bits должен быть от константного типа (enum), чтобы это работало.
-//            static_assert(!hasduplicates<bits...>(), "Найдены повторяющиеся биты.");
-
-            if(haslowbits<bits...>())
-            {
-                // rega |= clearlowbits<bits...>(mask);
-//                rega |= lowbits<bits...>(mask);
-            }
-
-            if(hashighbits<bits...>())
-            {
-                // rega |= clearhighbits<bits...>(mask);
-//                regb |= highbits<bits...>(mask);
-            }
-        }
-};
-
-#undef maskwidth
-
-/*
-        // ============================================================================
-           public:
-               template<GPin... pins>
-               inline void SetModeSpeed(uint32_t mask)
-               {
-                   SetModeSpeed<(uint8_t)pins...>(mask);
-               }
-           private:
-               // --------------------------------------------------------------------
-               template<uint8_t... pins>
-               inline void SetModeSpeed(uint32_t mask)
-               {
-                   CRL &= MakeClearMask<pins...>();
-                   CRL |= MakeSetMask<pins...>(mask);
-
-                   CRH &= MakeClearMask<pins...>();
-                   CRH |= MakeSetMask<pins...>(mask);
-               }
-               // --------------------------------------------------------------------
-               template<uint8_t pin>
-               inline uint32_t MakeClearMask() // constexpr
-               {
-                   return pin < 8 ? ~(_4bitsmask << (pin * 4)) : ~(_4bitsmask << ((pin - 8) * 4));
-               }
-               // --------------------------------------------------------------------
-               template<uint8_t pin1, uint8_t pin2, uint8_t...pins>
-               inline uint32_t MakeClearMask() // constexpr
-               {
-                   return MakeClearMask<pin1>() & MakeClearMask<pin2, pins...>();
-               }
-               // --------------------------------------------------------------------
-               template<uint8_t pin>
-               inline uint32_t MakeSetMask(uint32_t mask) // constexpr
-               {
-                   return pin < 8 ? mask << pin * 4 : mask << (pin - 8) * 4;
-               }
-               // --------------------------------------------------------------------
-               template<uint8_t pin1, uint8_t pin2, uint8_t...pins>
-               inline uint32_t MakeSetMask(uint32_t mask) // constexpr
-               {
-                   return MakeSetMask<pin1>(mask) | MakeSetMask<pin2, pins...>(mask);
-               }
-               */
-               /*
-               // --------------------------------------------------------------------
-               inline uint32_t MakeClearMask(uint8_t pin) // constexpr
-               {
-               // Условие будет вычислено при компиляции.
-               //return ~((uint8_t)pin < 8 ? _4bitsmask << ((uint8_t)pin * 4) : _4bitsmask << (((uint8_t)pin - 8) * 4));
-               return ~(_4bitsmask << (pin * 4));
-               }
-
-               // --------------------------------------------------------------------
-               inline constexpr uint32_t MakeSetMask(uint8_t pin, uint32_t mask)
-               {
-               // Условие будет вычислено при компиляции.
-               return mask << (pin * 4);
-               }
-*/
 
 
     // ========================================================================
@@ -359,8 +326,10 @@ class TBits
         // --------------------------------------------------------------------
 
 
-
+#undef _MASKWIDTH
+#undef _4BITSMASK
 };
+
 
 // ----------------------------------------------------------------------------
 extern TGPIO & PortA;
@@ -425,6 +394,29 @@ extern TI2C & i2c1;
 
 
 // ============================================================================
+class TEUSART : public ::USART_TypeDef // Надо будет написать ostream для него.
+{                                      //
+
+    private:
+        TEUSART() = delete;
+        ~TEUSART() = delete;
+
+
+    // ========================================================================
+    public:
+        void Open()
+        {
+
+        }
+
+        // --------------------------------------------------------------------
+
+
+};
+
+
+
+// ============================================================================
 
 // ----------------------------------------------------------------------------
 // TODO
@@ -435,6 +427,7 @@ extern TI2C & i2c1;
 #endif //__STM_PERIPHERY_H
 
 
+// Плюшкин уехал в другой файл. Здесь немного осталось его запасов.
 // --------------------------------------------------------------------
 //        void Test(Pin::TPin pin)
 //        {
@@ -448,3 +441,5 @@ extern TI2C & i2c1;
 //            tmp = _4BITSMASK;
 //            tmp = 0;
 //        }
+
+
