@@ -243,31 +243,9 @@ class TGPIO : public GPIO_TypeDef
             }
         }
 
-    public:
-//        constexpr uint32_t createmask(uint32_t mask) { return mask; }
-//        template<uint8_t ... bits>
-//        inline void clearsetbits(const uint32_t mask) //
-//        {
-//            static_assert(sizeof...(bits) > 0, "Не указаны биты.");
-//            static_assert(sizeof...(bits) <= 16, "Указано количество бит более разрядности (> 16).");
-//            // bits должен быть от константного типа (enum), чтобы это работало.
-//            //static_assert(!hasduplicates<bits...>(), "Найдены повторяющиеся биты.");
-//
-//            if(haslowbits<bits...>())
-//            {
-//                // uint32_t tmp = ;
-//                CRL &= ~lowbits<bits...>(_4BITSMASK); // tmp;
-//                //tmp = ;
-//                CRL |= lowbits<bits...>(createmask(mask));
-//            }
-//
-//            if(hashighbits<bits...>())
-//            {
-//                CRH &= ~highbits<bits...>(_4BITSMASK);
-//                CRH |= highbits<bits...>(mask);
-//            }
-//        }
 
+    // ========================================================================
+    private:
         template<uint8_t ... bit>
         inline constexpr bool hasduplicates(void) //
         {
@@ -288,7 +266,7 @@ class TGPIO : public GPIO_TypeDef
             return (... + (bit < 8 ? bit + 1 : 0)) != 0;       //
         }
         template<uint8_t... bit>
-        inline uint32_t constexpr lowmask(void)
+        inline constexpr uint32_t lowmask(void)
         {
             return (... & (bit < 8 ? _4BITSMASK << bit - 8 * _MASKWIDTH : 0xFFFFFFFFU));
         }
@@ -305,12 +283,12 @@ class TGPIO : public GPIO_TypeDef
             return (... + (bit >= 8 ? bit : 0)) != 0;
         }
         template<uint8_t... bit>
-        inline uint32_t constexpr highmask(void)
+        inline constexpr uint32_t highmask(void)
         {
             return (... & (bit >= 8 ? _4BITSMASK << (bit - 8) * _MASKWIDTH : 0xFFFFFFFFU));
         }
         template<uint8_t... bit>
-        inline uint32_t constexpr highbits(uint32_t mask)
+        inline constexpr uint32_t highbits(uint32_t mask)
         {
             return (... | (bit >= 8 ? mask << (bit - 8) * _MASKWIDTH : 0U));
         }
@@ -318,12 +296,34 @@ class TGPIO : public GPIO_TypeDef
 
     // ========================================================================
     public:
-
-
-    // ========================================================================
-    private:
+        template<GPin... pin>
+        inline void PinOn(void)
+        {
+            BSRR = (... | ((uint32_t)0x01U << (uint8_t)pin));
+        }
+        // --------------------------------------------------------------------
+        template<GPin... pin>
+        inline void PinOff(void)
+        {
+            BRR =  (... | ((uint32_t)0x01 << (uint8_t)pin));
+        }
 
         // --------------------------------------------------------------------
+        template<GPin... pin>
+        inline constexpr bool AnyOdrBitIsOn()
+        {
+            return (... && ((ODR & ((uint32_t)0x01U << (uint8_t)pin)) != 0));
+        }
+
+
+    private:
+    // ========================================================================
+
+
+
+
+        // --------------------------------------------------------------------
+
 
 
 #undef _MASKWIDTH
@@ -338,6 +338,7 @@ extern TGPIO & PortC;
 
 
 // ============================================================================
+// template<GPin scl, GPin sda>
 class TI2C : public I2C_TypeDef // I2C прям вот не хочется делать, но тут без
 {                               // вариантов.
     private:
@@ -358,33 +359,179 @@ class TI2C : public I2C_TypeDef // I2C прям вот не хочется де�
         {
             // Rcc.Peryphery1on();   // Тактирование I2C1
 
+            CR1 = I2C_CR1_SWRST; // 0;
+            while(SR1 != 0 && SR2 != 0) ; // Эту строчку смело можно заккоментировать.
             CR1 = 0;
-            CR1 |= I2C_CR1_ACK | I2C_CR1_START | I2C_CR1_STOP;
 
-            CR2 |= 36U;     // FREQR 36 МГц (100100) TPCLK1 = 1 / (FREQR * 1e6)  ≈ 28 нсек
-                            // FSCL = 400 кГц TSCL = 1 / FSCL = Thigh + Tlow = 25 * CCR * TPCLK1
-                            // CCR = 1 / (25 * TPCLK1 * FSCL) ≈ 1 / (25 * 400e6 * 28e-9) ≈ 3
-            // 11:0
-            CCR |= 3U;      // Thigh = 9 * CCR * TPCLK1
-                            // Tlow = 16 * CCR * TPCLK1
-                            //
-            CCR |= I2C_CCR_FS | I2C_CCR_DUTY;   // Fast mode и duty (9/16) (Если не ставить,
-                                                // то можно разогнать I2C).
-            TRISE |= 8U;     // 200 нсек / 28 нсек ≈ 7. (7 + 1). Reset value 0x20, можно и просто TRISE = 8U;
+            // 100 кГц
+            // ----------------------------------------------------------------
+            CR2 &= 0xffc0;    // =I2C_CR2_FREQ_Reset
+            CR2 |= 36U;        // set FREQ = APB1= 36MHz
 
-            CR1 |= I2C_CR1_PE;  // Periphery enabled. (Померяю, сколько получится).
+            CCR = 180U;
+            TRISE = 38U;
+
+            // 400 кГц
+            // ----------------------------------------------------------------
+//            CR2 |= 36U;     // FREQR 36 МГц (100100) TPCLK1 = 1 / (FREQR * 1e6)  ≈ 28 нсек
+//                            // FSCL = 400 кГц TSCL = 1 / FSCL = Thigh + Tlow = 25 * CCR * TPCLK1
+//                            // CCR = 1 / (25 * TPCLK1 * FSCL) ≈ 1 / (25 * 400e6 * 28e-9) ≈ 3
+//            // 11:0
+//            CCR |= 3U;      // Thigh = 9 * CCR * TPCLK1
+//                            // Tlow = 16 * CCR * TPCLK1
+//                            //
+//            CCR |= I2C_CCR_FS | I2C_CCR_DUTY;   // Fast mode и duty (9/16) (Если не ставить,
+//                                                // то можно разогнать I2C, ну её и так можно
+//                                                //  разогнать, емкости проводников больше мешают).
+//            TRISE |= 8U;     // 200 нсек / 28 нсек ≈ 7. (7 + 1). Reset value 0x20, можно и просто TRISE = 8U;
+
+            CR1 |= I2C_CR1_PE; // Periphery enabled. (Померяю, сколько получится).
+        }
+
+        // --------------------------------------------------------------------
+        void Write(uint8_t addr, uint8_t data)
+        {
+            CR1 |= I2C_CR1_START; // Старт.
+            while ((I2C1->SR1 & I2C_SR1_SB) == 0) ;
+
+            DR = addr << 1U;
+
+            while( (SR1 & I2C_SR1_ADDR) == 0 ) ;
+            (void)SR2;
+
+            DR = data;
+
+
+            CR1 |= I2C_CR1_STOP;
+
+        }
+
+        // --------------------------------------------------------------------
+        void WriteAddr(uint8_t addr)
+        {
+            CR1 |= I2C_CR1_START; // Старт.
+            while ((I2C1->SR1 & I2C_SR1_SB) == 0) {}
+
+            // I2C использует 7-мь бит адреса. Младший некоторые к-ры используют
+            // для указания записи и чтения для байт, идуших за адресом без старт/стопа.
+            DR = addr << 1U | 0x00U; // Адрес устройства. ( | 0x01U) для чтения.
+
+            while( (SR1 & I2C_SR1_ADDR) == 0 ) {} // Сброс флага ADDR
+            (void)SR2;                            // чтением 2-х регистров состояния.
+
+            CR1 |= I2C_CR1_STOP;
+
+/*
+            CR1 |= I2C_CR1_START; // Рестарт.
+            while ((I2C1->SR1 & I2C_SR1_SB) == 0) ;
+
+            DR = 0x02U; // Адрес регистра.
+
+            while( (SR1 & I2C_SR1_ADDR) == 0 ) {}
+            (void)SR2;
+
+
+//            if( (SR2 & I2C_SR2_TRA) != 0 )
+//            {
+                DR = 0xFFU; // Данные.
+//            }
+//            while( (SR1 & I2C_SR1_TXE) == 0 ) ;
+
+
+            while( (SR1 & I2C_SR1_BTF) != 0 ) ;
+            CR1 |= I2C_CR1_STOP;
+
+*/
+        }
+
+
+        // --------------------------------------------------------------------
+        void WriteAddr2(uint8_t addr)
+        {
+            __IO uint32_t tmp;
+
+
+
+            CR1 |= I2C_CR1_START; // Старт.
+            while ((I2C1->SR1 & I2C_SR1_SB) == 0) {}
+
+            DR = 0x02U; // Адрес устройства. ( | 0x01U) для чтения.
+            while( (SR1 & I2C_SR1_ADDR) == 0 ) {}
+            (void)SR2;
+
+            DR = 0x03U;
+            while( (SR1 & I2C_SR1_BTF) == 0 ) ;
+
+            DR = 0xFFU;
+            while( (SR1 & I2C_SR1_BTF) == 0 ) ;
+
+            DR = 0xFFU;
+            while( (SR1 & I2C_SR1_BTF) == 0 ) ;
+
+            DR = 0xFFU;
+            while( (SR1 & I2C_SR1_BTF) == 0 ) ;
+
+            DR = 0xFFU;
+            while( (SR1 & I2C_SR1_BTF) == 0 ) ;
+
+//            CR1 |= I2C_CR1_STOP;
+
+//            (void)SR1;
+//            CR1 |= I2C_CR1_START; // Старт.
+//            while ((I2C1->SR1 & I2C_SR1_SB) == 0) {}
+//
+//            DR = 0x11U; // Адрес устройства. ( | 0x01U) для чтения.
+//            while( (SR1 & I2C_SR1_ADDR) == 0 ) {}
+//            (void)SR2;
+
+            CR1 |= I2C_CR1_START; // Старт.
+            while ((I2C1->SR1 & I2C_SR1_SB) == 0) {}
+
+            CR1 |= I2C_CR1_STOP;
+
+            tmp = 0;
+        }
+         // --------------------------------------------------------------------
+        void WriteData(uint8_t data)
+        {
+           // (void)SR1;
+//            (void)SR2;
+
+//            CR1 |= I2C_CR1_START; // | I2C_CR1_ACK; // | I2C_CR1_STOP;
+//            while ((I2C1->SR1 & I2C_SR1_SB) == 0) ;
+
+           // CR1 |= I2C_CR1_STOP; // 0;I2C_SR1_TXE
+//            CR1 |= I2C_CR1_PE;
+
+           // (void)SR1;
+
+            DR = data; // << 1;
+
+            while( (SR1 & I2C_SR1_BTF) != 0 ) ;
+
+            (void)SR1;
+            (void)SR2;
+
+            CR1 |= I2C_CR1_STOP;
+
         }
 
         // --------------------------------------------------------------------
         void Write(uint8_t data)
         {
+            CR1 |= I2C_CR1_START; // | I2C_CR1_ACK; // | I2C_CR1_STOP;
+            while ((I2C1->SR1 & I2C_SR1_SB) == 0) ;
+
+            DR = data; // << 1;
+
+            while( (SR1 & I2C_SR1_BTF) != 0 ) ;
+
+            (void)SR2;
+
+            CR1 |= I2C_CR1_STOP;
 
         }
-        // --------------------------------------------------------------------
-        void Write(uint8_t addr, uint8_t data)
-        {
 
-        }
 
 };
 
@@ -414,9 +561,309 @@ class TEUSART : public ::USART_TypeDef // Надо будет написать o
 
 };
 
+// ----------------------------------------------------------------------------
+extern TEUSART & Eusart1;
+
+
+// Программная I2C. Более универсальная, конечно.
+// ============================================================================
+template<GPin sclpin, GPin sdapin>
+class TSI2C // : public TBaseI2C
+{
+    private:
+        template<GPin Pin>
+        class TLine
+        {
+            public:
+                TGPIO & Port;
+
+                PinMode1 InMode = PinMode1::Input;
+                PinFunct1 InFunct = PinFunct1::FloatInput;
+
+                PinMode2 OutMode = PinMode2::Out2MHz;
+                PinFunct2 OutFunct = PinFunct2::OpenDrain;
+
+
+            // Предполагается, что тактирование порта включено.
+            // ================================================================
+            public:
+                inline TLine(TGPIO & port) : Port(port)
+                {
+
+                }
+                inline ~TLine() {};
+
+                // ------------------------------------------------------------
+                inline void SetIn(void)
+                {
+                    Port.SetupPins<Pin>(InMode, InFunct);
+                }
+                // ------------------------------------------------------------
+                inline void SetOut(void) // bool high = true
+                {
+                    Port.SetupPins<Pin>(OutMode, OutFunct);
+                }
+                // ------------------------------------------------------------
+                inline void Rise(void)
+                {
+                    Port.PinOn<Pin>();
+                }
+                // ------------------------------------------------------------
+                inline void Drop(void)
+                {
+                    Port.PinOff<Pin>();
+                }
+                // ------------------------------------------------------------
+                inline bool Read(void)
+                {
+                    return ((uint32_t)Pin | Port.IDR) == 0;
+                }
+        };
+
+
+        // ====================================================================
+        TLine<sclpin> SCL;
+        TLine<sdapin> SDA;
+
+        const uint8_t Delay1 = 5;
+        const uint8_t Delay2 = 2;
+
+
+    // ========================================================================
+    public:
+        inline TSI2C(TGPIO & port)
+            : SCL(port),
+              SDA(port)
+        {
+            // Rcc.SysFreq;
+        }
+        // --------------------------------------------------------------------
+        inline ~TSI2C() {};
+
+        // --------------------------------------------------------------------
+        void Open(void)
+        {
+            SCL.Rise();
+            SDA.Rise();
+            SCL.SetOut();
+            SDA.SetOut();
+        }
+
+        // --------------------------------------------------------------------
+        void Write(uint8_t device, uint8_t reg, uint8_t byte)
+        {
+
+        }
+        // --------------------------------------------------------------------
+        void Write(uint8_t device, uint8_t reg,  const uint8_t * const byte, uint8_t nbytes)
+        {
+
+        }
+        // --------------------------------------------------------------------
+        void Read(uint8_t device, uint8_t reg, uint8_t & byte)
+        {
+
+        }
+        // --------------------------------------------------------------------
+        uint8_t Read(uint8_t device, uint8_t reg, uint8_t & byte, uint8_t nbytes)
+        {
+            return 0;
+        }
+
+        // --------------------------------------------------------------------
+        void WriteByte(uint8_t byte)
+        {
+            Start();
+            Write8(byte);
+            Ack();
+            Stop();
+        }
+        // --------------------------------------------------------------------
+        void WriteByteNoStop(uint8_t byte)
+        {
+            Start();
+            Write8(byte);
+            Ack();
+        }
+        // --------------------------------------------------------------------
+        void WriteByteNoStartStop(uint8_t byte)
+        {
+            Write8(byte);
+            Ack();
+        }
+
+        // --------------------------------------------------------------------
+        inline void Start(void)
+        {
+            SDA.Drop();
+            Delay(5);
+            SCL.Drop();
+        }
+        // --------------------------------------------------------------------
+        inline void Stop(void)
+        {
+            SCL.Rise();
+            Delay(5);
+            SDA.Rise();
+            Delay(10);
+        }
+
+        // --------------------------------------------------------------------
+        inline void Write8(uint8_t byte)
+        {
+            for(uint8_t i = 0; i != 8; i++)
+            {
+                bool ping = byte & 0x01U;
+                if(ping)
+                {
+                    SDA.Rise();
+                }
+                else
+                {
+                    SDA.Drop();
+                }
+
+                Delay(5);
+                SCL.Rise();
+                Delay(5);
+                SCL.Drop();
+
+                byte >>= 1U;
+            }
+            Delay(5);
+        }
+
+        // --------------------------------------------------------------------
+        inline void Ack(void)
+        {
+            SDA.Rise();
+
+            Delay(2);
+            SCL.Rise();
+            Delay(5);
+            SCL.Drop();
+
+            SDA.Drop();
+
+            Delay(5);
+        }
+
+        // --------------------------------------------------------------------
+        inline void Delay(uint8_t usec)
+        {
+            for(__IO uint32_t t = 0; t != usec * 10; t++) ;
+        }
+
+    // ========================================================================
+
+};
+
+// ----------------------------------------------------------------------------
+extern TSI2C<GPin::P6, GPin::P7> Si2c1;
+
+
+const int8_t Seg[] =
+    {0x3f,0x06,0x5b,0x4f,
+     0x66,0x6d,0x7d,0x07,
+     0x7f,0x6f,0x77,0x7c,
+     0x39,0x5e,0x79,0x71}; //0~9,A,b,C,d,E,F
+
+// ============================================================================
+class TLed1637
+{
+//    static const int8_t Seg[] =
+//            {0x3f,0x06,0x5b,0x4f,
+//             0x66,0x6d,0x7d,0x07,
+//             0x7f,0x6f,0x77,0x7c,
+//             0x39,0x5e,0x79,0x71}; //0~9,A,b,C,d,E,F
+
+    private:
+        void StartCommand1(void)
+        {
+//            Si2c1.Start();
+//            Si2c1.Write8(0x40U);
+//            Si2c1.Ack();
+//            Si2c1.Stop();
+
+            Si2c1.WriteByteNoStop(0xC0U);
+        }
+        // --------------------------------------------------------------------
+        void Write(uint8_t addr, uint8_t data)
+        {
+            Si2c1.WriteByteNoStop(addr);
+            Si2c1.WriteByteNoStartStop(data);
+            Si2c1.Stop();
+        }
+
+    // ========================================================================
+    public:
+        void Setup(void)
+        {
+            Si2c1.WriteByte(0x89U); // LedsOn();
+            Si2c1.WriteByte(0x40U);
+        }
+        // --------------------------------------------------------------------
+        void LedsOn(uint8_t bright = 1) // Минимум после подачи питания. Макс. 7
+        {
+            if(bright > 7) bright = 7;
+            Si2c1.WriteByte(0x88U | bright);
+        }
+        // --------------------------------------------------------------------
+        void LedsOff(void)
+        {
+            Si2c1.WriteByte(0x80U);
+        }
+        // --------------------------------------------------------------------
+        void Clear(void)
+        {
+            StartCommand1();
+
+            for(uint8_t i = 0; i != 4; i++)
+            {
+                Si2c1.WriteByteNoStartStop(0x00U); // !!! TODO: timeout
+            }
+
+            Si2c1.Stop();
+        }
+        // --------------------------------------------------------------------
+        void Display(uint16_t n)
+        {
+            // StartCommand1();
+
+            for(uint8_t i = 4; i != 0 ; i--)
+            {
+                // if(n == 0 && i != 3) Si2c1.Write8(0x00);
+                // Si2c1.WriteByteNoStartStop(Seg[n % 10]);
+                Write(0xC0 + (i - 1), Seg[n % 10]);
+                n /= 10;
+            }
+
+            // Si2c1.Stop();
+        }
+        // --------------------------------------------------------------------
+        // template<uint8_t radix>
+        void DisplayHex(uint16_t n)
+        {
+            // StartCommand1();
+
+            for(uint8_t i = 4; i != 0 ; i--)
+            {
+                //Si2c1.WriteByteNoStartStop(Seg[n % 16]);
+                Write(0xC0 + (i - 1), Seg[n % 16]);
+                n /= 16;
+            }
+
+            // Si2c1.Stop();
+        }
+};
+
+// ----------------------------------------------------------------------------
+extern TLed1637 Led1637;
 
 
 // ============================================================================
+
+
 
 // ----------------------------------------------------------------------------
 // TODO
