@@ -36,11 +36,11 @@ TGPIO & PortC = *static_cast<TGPIO *>GPIOC;
 // <GPin::P6, GPin::P7, PortB>
 TI2C & i2c1 = *static_cast<TI2C *>I2C1;
 // ----------------------------------------------------------------------------
-TSI2C<GPin::P6, GPin::P7> Si2c1(PortB);
+//TSI2C<GPin::P6, GPin::P7> Si2c1(PortB);
 
 
 // ============================================================================
-TLed1637 Led1637;
+//TLed1637 Led1637;
 
 
 // красный, красный с желтым, зеленый, зеленый мигающий, желтый, красный.
@@ -68,6 +68,45 @@ void DriveGreenLed(void);
 void DriveRoadLight(void);
 
 
+// ============================================================================
+union
+{   // Выравнивание, константы размеров? Нет, не слышали...
+    __IO uint8_t bytes[22];
+        uint16_t words[11];
+    struct
+    {
+       int16_t MD;
+       int16_t MC;
+       int16_t MB;
+       int16_t B2;
+       int16_t B1;
+      uint16_t AC6;
+      uint16_t AC5;
+      uint16_t AC4;
+       int16_t AC3;
+       int16_t AC2;
+       int16_t AC1;
+    } K;
+} BmpData1;
+
+// ----------------------------------------------------------------------------
+union
+{
+    struct
+    {
+        uint8_t data2; // LSB - MSB
+        uint8_t data;
+    } D;
+
+    int32_t Val;
+} BmpInt;
+
+// ----------------------------------------------------------------------------
+enum class BmpState
+{
+    On, Calibr, Temp, Pressr,
+} BmpState = BmpState::On;
+
 // ----------------------------------------------------------------------------
 uint32_t ledtick;
 uint32_t signtick;
@@ -87,11 +126,34 @@ void main(void)
     InitPorts();
 
     // ------------------------------------------------------------------------
-    //PortB.SetupPins<GPin::P6, GPin::P7>(PinMode2::Out10Mhz, PinFunct2::AF_OpenDrain);
-    //i2c1.Open();
+    Rcc.Peryphery1on(TRcc::i2c1);
+
+    PortB.SetupPins<GPin::P6, GPin::P7>(PinMode2::Out2MHz, PinFunct2::AF_OpenDrain);
+
+    PortB.SetupPins<GPin::P5>(PinMode2::Out2MHz, PinFunct2::PushPull);
+
+    PortB.PinOn<GPin::P5>();
+
+    i2c1.Open();
+
+//    i2c1.WriteAddr(0xEEU);
+    // Старт, адрес(устройство), ACK, команда(регистр), ACK, данные, ACK, ..., стоп.
+//    i2c1.Write(0xEEU, 0xF4U, 0x2EU); // bmp180 - 0xEEU. Test id - 0xD0U
+//    i2c1.Write(0xEEU, 0xD0U);
+
+//    __IO uint8_t data; //
+//    i2c1.FullReadOne(0xEEU, 0xD0U, data);
+
+//    __IO uint16_t data2; //
+
+    // Старт, адрес(устройство), ACK(ADDR), команда(регистр),
+//    i2c1.Write(0xEEU, 0xF4U, 0x34U);
+//    i2c1.Write(0xEEU, 0x2EU);
+    // Старт, адрес(устройство), ACK(ADDR), команда(регистр), ACK, рестарт, адрес, чтение, ACK, чтение, NACK, стоп.
+//    i2c1.FullReadTwo(0xEEU, 0xF6U, data2);
 
     // ========================================================================
-    Si2c1.Open();
+    // Si2c1.Open();
 
 //    Led1637.Setup();
 
@@ -100,25 +162,66 @@ void main(void)
     SysTimer.Start();
 
     // ========================================================================
-    ledtick = SysTimer.Tick;
-    signtick = SysTimer.Tick + 500;
-    sectick = SysTimer.Tick + 1000;
+    ledtick = SysTimer.Tick + 200;
+    signtick = SysTimer.Tick + 750;
+    sectick = SysTimer.Tick + 1200;
 
     // ------------------------------------------------------------------------
     while (1)
     {
         // Стоит только какой-нибудь секции выполняться более 1 мсек и вся эта
         // многозадачность рухнет. Но есть решение.
+        // TODO: прерывания I2C. Ну, это легко. )
         // --------------------------------------------------------------------
         if(sectick == SysTimer.Tick) // int sectick <= SysTimer.Tick ((
         {
-//            Led1637.Display(sec1++);
+            switch(BmpState)
+            {
+    //            Led1637.Display(sec1++);
+                case BmpState::Calibr:
+                    i2c1.FullReadN(0xEEu, 0xBFu, BmpData1.bytes, 22);
+                    BmpState = BmpState::Temp;
+                    i2c1.Write(0xEEu, 0xF4u, 0x2Eu);
+                break;
+
+                case BmpState::Temp:
+                    i2c1.FullReadTwo(0xEEu, 0xF6u, BmpInt.D.data, BmpInt.D.data2);
+
+                    i2c1.Write(0xEEU, 0xF4u, 0xF4U); // Запуск измерения давления.
+
+                    // TODO: Набить все эти переменные в стек - не лучшая идея.
+
+
+                    BmpState = BmpState::Pressr;
+                break;
+
+                case BmpState::Pressr:
+                    i2c1.FullReadTwo(0xEEu, 0xF6u, BmpInt.D.data, BmpInt.D.data2);
+
+                    i2c1.Write(0xEEu, 0xF4u, 0x2Eu); // Запуск измерения температуры.
+
+                     // Led1637.Display(Pressure);
+                    BmpState = BmpState::Temp;
+                break;
+
+                case BmpState::On:
+                    i2c1.Write(0xEEu, 0xE0u, 0xB6u);
+                    // __IO uint8_t tmp;
+                    // i2c1.FullReadOne(0xEEu, 0xF4u, tmp);
+                    BmpState = BmpState::Calibr;
+                break;
+                default:
+                    ;
+            }
+
+            // i2c1.FullReadOne(0xEEU, 0xF6U, data);
+//            i2c1.Write(0xEEU, 0xF4U);
+//            i2c1.Write(0xEEU, 0x2EU);
 
             if(sec1 == 1000)
             {
                 sec1 = 0;
             }
-
             sectick += 1000;
         }
 

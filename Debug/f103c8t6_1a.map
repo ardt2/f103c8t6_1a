@@ -526,7 +526,6 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_macro   0x0000000000000000      0xaa2 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_macro   0x0000000000000000      0x34e ./System/Source/Cmsis/vectors_stm32f10x.o
- .group         0x0000000000000000        0x8 ./Code/main103c8t6_1.o
  .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
  .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
  .group         0x0000000000000000        0xc ./Code/main103c8t6_1.o
@@ -588,7 +587,6 @@ Discarded input sections
  .bss           0x0000000000000000        0x0 ./Code/main103c8t6_1.o
  .text._Z13DriveGreenLedv
                 0x0000000000000000       0x3c ./Code/main103c8t6_1.o
- .bss.Led1637   0x0000000000000000        0x1 ./Code/main103c8t6_1.o
  .rodata.PortA  0x0000000000000000        0x4 ./Code/main103c8t6_1.o
  .rodata.PortB  0x0000000000000000        0x4 ./Code/main103c8t6_1.o
  .rodata.PortC  0x0000000000000000        0x4 ./Code/main103c8t6_1.o
@@ -684,7 +682,7 @@ END GROUP
                 0x0000000020004c00                __Main_Stack_Limit = (__stack - __Main_Stack_Size)
                 [!provide]                        PROVIDE (_Main_Stack_Limit = __Main_Stack_Limit)
                 0x0000000000000100                _Minimum_Stack_Size = 0x100
-                0x0000000020000074                PROVIDE (_Heap_Begin = _end_noinit)
+                0x0000000020000068                PROVIDE (_Heap_Begin = _end_noinit)
                 0x0000000020004c00                PROVIDE (_Heap_Limit = (__stack - __Main_Stack_Size))
 
 .isr_vector     0x0000000008000000      0x298
@@ -803,18 +801,18 @@ END GROUP
                 0x0000000008000294                DMA2_Channel3_IRQHandler
                 0x0000000008000294                TIM1_BRK_TIM15_IRQHandler
 
-.inits          0x0000000008000298       0x2c
+.inits          0x0000000008000298       0x28
                 0x0000000008000298                __data_regions_array_start = .
-                0x0000000008000298        0x4 LONG 0x8000a58 LOADADDR (.data)
+                0x0000000008000298        0x4 LONG 0x8000b14 LOADADDR (.data)
                 0x000000000800029c        0x4 LONG 0x20000000 ADDR (.data)
                 0x00000000080002a0        0x4 LONG 0x20000028 (ADDR (.data) + SIZEOF (.data))
-                0x00000000080002a4        0x4 LONG 0x8000a58 LOADADDR (.data_CCMRAM)
+                0x00000000080002a4        0x4 LONG 0x8000b14 LOADADDR (.data_CCMRAM)
                 0x00000000080002a8        0x4 LONG 0x0 ADDR (.data_CCMRAM)
                 0x00000000080002ac        0x4 LONG 0x0 (ADDR (.data_CCMRAM) + SIZEOF (.data_CCMRAM))
                 0x00000000080002b0                __data_regions_array_end = .
                 0x00000000080002b0                __bss_regions_array_start = .
                 0x00000000080002b0        0x4 LONG 0x20000028 ADDR (.bss)
-                0x00000000080002b4        0x4 LONG 0x20000074 (ADDR (.bss) + SIZEOF (.bss))
+                0x00000000080002b4        0x4 LONG 0x20000068 (ADDR (.bss) + SIZEOF (.bss))
                 0x00000000080002b8        0x4 LONG 0x0 ADDR (.bss_CCMRAM)
                 0x00000000080002bc        0x4 LONG 0x0 (ADDR (.bss_CCMRAM) + SIZEOF (.bss_CCMRAM))
                 0x00000000080002c0                __bss_regions_array_end = .
@@ -830,91 +828,83 @@ END GROUP
                 0x00000000080002c0                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array)
- .init_array    0x00000000080002c0        0x4 ./Code/main103c8t6_1.o
-                0x00000000080002c4                PROVIDE (__init_array_end = .)
-                0x00000000080002c4                . = ALIGN (0x4)
-                0x00000000080002c4                PROVIDE (__fini_array_start = .)
+                0x00000000080002c0                PROVIDE (__init_array_end = .)
+                0x00000000080002c0                . = ALIGN (0x4)
+                0x00000000080002c0                PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array)
-                0x00000000080002c4                PROVIDE (__fini_array_end = .)
+                0x00000000080002c0                PROVIDE (__fini_array_end = .)
 
 .flashtext
  *(.flashtext .flashtext.*)
 
-.text           0x00000000080002c4      0x794
+.text           0x00000000080002c0      0x854
  *(.text .text.*)
  .text.__initialize_hardware_early
-                0x00000000080002c4       0x18 ./System/Source/cortexm/_initialize_hardware.o
-                0x00000000080002c4                __initialize_hardware_early
+                0x00000000080002c0       0x18 ./System/Source/cortexm/_initialize_hardware.o
+                0x00000000080002c0                __initialize_hardware_early
  .text.__initialize_hardware
-                0x00000000080002dc        0x4 ./System/Source/cortexm/_initialize_hardware.o
-                0x00000000080002dc                __initialize_hardware
- .text._exit    0x00000000080002e0        0x4 ./System/Source/Newlib/_exit.o
-                0x00000000080002e0                _exit
+                0x00000000080002d8        0x4 ./System/Source/cortexm/_initialize_hardware.o
+                0x00000000080002d8                __initialize_hardware
+ .text._exit    0x00000000080002dc        0x4 ./System/Source/Newlib/_exit.o
+                0x00000000080002dc                _exit
  .text.SystemInit
-                0x00000000080002e4      0x104 ./System/Source/Cmsis/system_stm32f10x.o
-                0x00000000080002e4                SystemInit
+                0x00000000080002e0      0x104 ./System/Source/Cmsis/system_stm32f10x.o
+                0x00000000080002e0                SystemInit
  .text.SystemCoreClockUpdate
-                0x00000000080003e8       0x5c ./System/Source/Cmsis/system_stm32f10x.o
-                0x00000000080003e8                SystemCoreClockUpdate
+                0x00000000080003e4       0x5c ./System/Source/Cmsis/system_stm32f10x.o
+                0x00000000080003e4                SystemCoreClockUpdate
  .text.SysTick_Handler
-                0x0000000008000444       0x10 ./Code/main103c8t6_1.o
-                0x0000000008000444                SysTick_Handler
+                0x0000000008000440       0x10 ./Code/main103c8t6_1.o
+                0x0000000008000440                SysTick_Handler
  .text._Z9InitPortsv
-                0x0000000008000454       0x84 ./Code/main103c8t6_1.o
-                0x0000000008000454                InitPorts()
+                0x0000000008000450       0x84 ./Code/main103c8t6_1.o
+                0x0000000008000450                InitPorts()
  .text._Z14DriveRoadLightv
-                0x00000000080004d8       0xc4 ./Code/main103c8t6_1.o
-                0x00000000080004d8                DriveRoadLight()
- .text._ZN5TSI2CIL4GPin6ELS0_7EE9WriteByteEh
-                0x000000000800059c      0x110 ./Code/main103c8t6_1.o
-                0x000000000800059c                TSI2C<(GPin)6, (GPin)7>::WriteByte(unsigned char)
+                0x00000000080004d4       0xc4 ./Code/main103c8t6_1.o
+                0x00000000080004d4                DriveRoadLight()
  .text.startup.main
-                0x00000000080006ac      0x368 ./Code/main103c8t6_1.o
-                0x00000000080006ac                main
- .text.startup._GLOBAL__sub_I__ZN13TSysTickTimer4TickE
-                0x0000000008000a14       0x34 ./Code/main103c8t6_1.o
+                0x0000000008000598      0x57c ./Code/main103c8t6_1.o
+                0x0000000008000598                main
  *(.rodata .rodata.* .constdata .constdata.*)
- .rodata._ZL3Seg
-                0x0000000008000a48       0x10 ./Code/main103c8t6_1.o
  *(vtable)
  *(.eh_frame*)
  *(.glue_7)
- .glue_7        0x0000000008000a58        0x0 linker stubs
+ .glue_7        0x0000000008000b14        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x0000000008000a58        0x0 linker stubs
+ .glue_7t       0x0000000008000b14        0x0 linker stubs
 
-.vfp11_veneer   0x0000000008000a58        0x0
- .vfp11_veneer  0x0000000008000a58        0x0 linker stubs
+.vfp11_veneer   0x0000000008000b14        0x0
+ .vfp11_veneer  0x0000000008000b14        0x0 linker stubs
 
-.v4_bx          0x0000000008000a58        0x0
- .v4_bx         0x0000000008000a58        0x0 linker stubs
+.v4_bx          0x0000000008000b14        0x0
+ .v4_bx         0x0000000008000b14        0x0 linker stubs
 
-.iplt           0x0000000008000a58        0x0
- .iplt          0x0000000008000a58        0x0 ./System/Source/cortexm/_initialize_hardware.o
+.iplt           0x0000000008000b14        0x0
+ .iplt          0x0000000008000b14        0x0 ./System/Source/cortexm/_initialize_hardware.o
 
-.rel.dyn        0x0000000008000a58        0x0
- .rel.iplt      0x0000000008000a58        0x0 ./System/Source/cortexm/_initialize_hardware.o
+.rel.dyn        0x0000000008000b14        0x0
+ .rel.iplt      0x0000000008000b14        0x0 ./System/Source/cortexm/_initialize_hardware.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x0000000008000a58                . = ALIGN (0x4)
-                0x0000000008000a58                __exidx_start = .
+                0x0000000008000b14                . = ALIGN (0x4)
+                0x0000000008000b14                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x0000000008000a58                __exidx_end = .
-                0x0000000008000a58                . = ALIGN (0x4)
-                0x0000000008000a58                _etext = .
-                0x0000000008000a58                __etext = .
+                0x0000000008000b14                __exidx_end = .
+                0x0000000008000b14                . = ALIGN (0x4)
+                0x0000000008000b14                _etext = .
+                0x0000000008000b14                __etext = .
 
-.data_CCMRAM    0x0000000000000000        0x0 load address 0x0000000008000a58
+.data_CCMRAM    0x0000000000000000        0x0 load address 0x0000000008000b14
  FILL mask 0xff
  *(.data.CCMRAM .data.CCMRAM.*)
                 0x0000000000000000                . = ALIGN (0x4)
-                0x0000000008000a58                _sidata = LOADADDR (.data)
+                0x0000000008000b14                _sidata = LOADADDR (.data)
 
-.data           0x0000000020000000       0x28 load address 0x0000000008000a58
+.data           0x0000000020000000       0x28 load address 0x0000000008000b14
  FILL mask 0xff
                 0x0000000020000000                _sdata = .
                 0x0000000020000000                __data_start__ = .
@@ -936,59 +926,62 @@ END GROUP
                 0x0000000020000028                _edata = .
                 0x0000000020000028                __data_end__ = .
 
-.igot.plt       0x0000000020000028        0x0 load address 0x0000000008000a80
+.igot.plt       0x0000000020000028        0x0 load address 0x0000000008000b3c
  .igot.plt      0x0000000020000028        0x0 ./System/Source/cortexm/_initialize_hardware.o
 
 .bss_CCMRAM     0x0000000000000000        0x0
  *(.bss.CCMRAM .bss.CCMRAM.*)
 
-.bss            0x0000000020000028       0x4c
+.bss            0x0000000020000028       0x40
                 0x0000000020000028                __bss_start__ = .
                 0x0000000020000028                _sbss = .
  *(.bss_begin .bss_begin.*)
  .bss_begin     0x0000000020000028        0x4 ./System/Source/Newlib/_startup.o
  *(.bss .bss.*)
- .bss.Si2c1     0x000000002000002c       0x2c ./Code/main103c8t6_1.o
-                0x000000002000002c                Si2c1
+ .bss.BmpData1  0x000000002000002c       0x16 ./Code/main103c8t6_1.o
+ *fill*         0x0000000020000042        0x2 
+ .bss.BmpInt    0x0000000020000044        0x4 ./Code/main103c8t6_1.o
+ .bss.BmpState  0x0000000020000048        0x4 ./Code/main103c8t6_1.o
+                0x0000000020000048                BmpState
  .bss._ZN13TSysTickTimer4TickE
-                0x0000000020000058        0x4 ./Code/main103c8t6_1.o
-                0x0000000020000058                TSysTickTimer::Tick
- .bss.ledtick   0x000000002000005c        0x4 ./Code/main103c8t6_1.o
-                0x000000002000005c                ledtick
- .bss.sec1      0x0000000020000060        0x2 ./Code/main103c8t6_1.o
-                0x0000000020000060                sec1
- *fill*         0x0000000020000062        0x2 
- .bss.sectick   0x0000000020000064        0x4 ./Code/main103c8t6_1.o
-                0x0000000020000064                sectick
+                0x000000002000004c        0x4 ./Code/main103c8t6_1.o
+                0x000000002000004c                TSysTickTimer::Tick
+ .bss.ledtick   0x0000000020000050        0x4 ./Code/main103c8t6_1.o
+                0x0000000020000050                ledtick
+ .bss.sec1      0x0000000020000054        0x2 ./Code/main103c8t6_1.o
+                0x0000000020000054                sec1
+ *fill*         0x0000000020000056        0x2 
+ .bss.sectick   0x0000000020000058        0x4 ./Code/main103c8t6_1.o
+                0x0000000020000058                sectick
  .bss.signstate
-                0x0000000020000068        0x1 ./Code/main103c8t6_1.o
-                0x0000000020000068                signstate
- *fill*         0x0000000020000069        0x3 
- .bss.signtick  0x000000002000006c        0x4 ./Code/main103c8t6_1.o
-                0x000000002000006c                signtick
+                0x000000002000005c        0x1 ./Code/main103c8t6_1.o
+                0x000000002000005c                signstate
+ *fill*         0x000000002000005d        0x3 
+ .bss.signtick  0x0000000020000060        0x4 ./Code/main103c8t6_1.o
+                0x0000000020000060                signtick
  *(COMMON)
  *(.bss_end .bss_end.*)
- .bss_end       0x0000000020000070        0x4 ./System/Source/Newlib/_startup.o
-                0x0000000020000074                . = ALIGN (0x4)
-                0x0000000020000074                __bss_end__ = .
-                0x0000000020000074                _ebss = .
+ .bss_end       0x0000000020000064        0x4 ./System/Source/Newlib/_startup.o
+                0x0000000020000068                . = ALIGN (0x4)
+                0x0000000020000068                __bss_end__ = .
+                0x0000000020000068                _ebss = .
 
 .noinit_CCMRAM
  *(.noinit.CCMRAM .noinit.CCMRAM.*)
 
-.noinit         0x0000000020000074        0x0
-                0x0000000020000074                _noinit = .
+.noinit         0x0000000020000068        0x0
+                0x0000000020000068                _noinit = .
  *(.noinit .noinit.*)
-                0x0000000020000074                . = ALIGN (0x4)
-                0x0000000020000074                _end_noinit = .
+                0x0000000020000068                . = ALIGN (0x4)
+                0x0000000020000068                _end_noinit = .
                 [!provide]                        PROVIDE (end = _end_noinit)
                 [!provide]                        PROVIDE (_end = _end_noinit)
                 [!provide]                        PROVIDE (__end = _end_noinit)
                 [!provide]                        PROVIDE (__end__ = _end_noinit)
 
-._check_stack   0x0000000020000074      0x100
-                0x0000000020000174                . = (. + _Minimum_Stack_Size)
- *fill*         0x0000000020000074      0x100 
+._check_stack   0x0000000020000068      0x100
+                0x0000000020000168                . = (. + _Minimum_Stack_Size)
+ *fill*         0x0000000020000068      0x100 
 
 .b1text
  *(.b1text)
@@ -1073,7 +1066,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000      0x1a8
+.debug_aranges  0x0000000000000000      0x198
  *(.debug_aranges)
  .debug_aranges
                 0x0000000000000000       0x28 ./System/Source/cortexm/_initialize_hardware.o
@@ -1088,12 +1081,12 @@ END GROUP
  .debug_aranges
                 0x0000000000000138       0x20 ./System/Source/Cmsis/vectors_stm32f10x.o
  .debug_aranges
-                0x0000000000000158       0x50 ./Code/main103c8t6_1.o
+                0x0000000000000158       0x40 ./Code/main103c8t6_1.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0xecd6
+.debug_info     0x0000000000000000     0xdadf
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x327 ./System/Source/cortexm/_initialize_hardware.o
  .debug_info    0x0000000000000327      0xba4 ./System/Source/cortexm/exception_handlers.o
@@ -1101,9 +1094,9 @@ END GROUP
  .debug_info    0x000000000000183d      0x446 ./System/Source/Newlib/_startup.o
  .debug_info    0x0000000000001c83      0x515 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_info    0x0000000000002198       0xce ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_info    0x0000000000002266     0xca70 ./Code/main103c8t6_1.o
+ .debug_info    0x0000000000002266     0xb879 ./Code/main103c8t6_1.o
 
-.debug_abbrev   0x0000000000000000     0x13e7
+.debug_abbrev   0x0000000000000000     0x1328
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000      0x10a ./System/Source/cortexm/_initialize_hardware.o
  .debug_abbrev  0x000000000000010a      0x26e ./System/Source/cortexm/exception_handlers.o
@@ -1111,9 +1104,9 @@ END GROUP
  .debug_abbrev  0x0000000000000594      0x18b ./System/Source/Newlib/_startup.o
  .debug_abbrev  0x000000000000071f      0x1ab ./System/Source/Cmsis/system_stm32f10x.o
  .debug_abbrev  0x00000000000008ca       0xa5 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_abbrev  0x000000000000096f      0xa78 ./Code/main103c8t6_1.o
+ .debug_abbrev  0x000000000000096f      0x9b9 ./Code/main103c8t6_1.o
 
-.debug_line     0x0000000000000000     0x2a75
+.debug_line     0x0000000000000000     0x2942
  *(.debug_line)
  .debug_line    0x0000000000000000      0x1a7 ./System/Source/cortexm/_initialize_hardware.o
  .debug_line    0x00000000000001a7      0x545 ./System/Source/cortexm/exception_handlers.o
@@ -1121,9 +1114,9 @@ END GROUP
  .debug_line    0x00000000000009d3      0x62e ./System/Source/Newlib/_startup.o
  .debug_line    0x0000000000001001      0x375 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_line    0x0000000000001376      0x136 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_line    0x00000000000014ac     0x15c9 ./Code/main103c8t6_1.o
+ .debug_line    0x00000000000014ac     0x1496 ./Code/main103c8t6_1.o
 
-.debug_frame    0x0000000000000000      0x330
+.debug_frame    0x0000000000000000      0x2dc
  *(.debug_frame)
  .debug_frame   0x0000000000000000       0x38 ./System/Source/cortexm/_initialize_hardware.o
  .debug_frame   0x0000000000000038       0xe8 ./System/Source/cortexm/exception_handlers.o
@@ -1131,9 +1124,9 @@ END GROUP
  .debug_frame   0x0000000000000158       0x80 ./System/Source/Newlib/_startup.o
  .debug_frame   0x00000000000001d8       0x48 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_frame   0x0000000000000220       0x20 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_frame   0x0000000000000240       0xf0 ./Code/main103c8t6_1.o
+ .debug_frame   0x0000000000000240       0x9c ./Code/main103c8t6_1.o
 
-.debug_str      0x0000000000000000    0x670c2
+.debug_str      0x0000000000000000    0x66fab
  *(.debug_str)
  .debug_str     0x0000000000000000    0x554a2 ./System/Source/cortexm/_initialize_hardware.o
                                       0x556d4 (size before relaxing)
@@ -1147,15 +1140,15 @@ END GROUP
                                       0x557a0 (size before relaxing)
  .debug_str     0x000000000005988e       0x5a ./System/Source/Cmsis/vectors_stm32f10x.o
                                        0x38fa (size before relaxing)
- .debug_str     0x00000000000598e8     0xd7da ./Code/main103c8t6_1.o
-                                      0x66339 (size before relaxing)
+ .debug_str     0x00000000000598e8     0xd6c3 ./Code/main103c8t6_1.o
+                                      0x6620e (size before relaxing)
 
-.debug_loc      0x0000000000000000     0x1946
+.debug_loc      0x0000000000000000      0xe85
  *(.debug_loc)
  .debug_loc     0x0000000000000000       0x15 ./System/Source/Newlib/_exit.o
  .debug_loc     0x0000000000000015      0x2b2 ./System/Source/Newlib/_startup.o
  .debug_loc     0x00000000000002c7       0xd6 ./System/Source/Cmsis/system_stm32f10x.o
- .debug_loc     0x000000000000039d     0x15a9 ./Code/main103c8t6_1.o
+ .debug_loc     0x000000000000039d      0xae8 ./Code/main103c8t6_1.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1173,14 +1166,14 @@ END GROUP
  *(.debug_varnames)
 OUTPUT(f103c8t6_1a.elf elf32-littlearm)
 
-.debug_ranges   0x0000000000000000      0xa38
+.debug_ranges   0x0000000000000000      0x4c8
  .debug_ranges  0x0000000000000000       0x18 ./System/Source/cortexm/_initialize_hardware.o
  .debug_ranges  0x0000000000000018       0x70 ./System/Source/cortexm/exception_handlers.o
  .debug_ranges  0x0000000000000088       0x18 ./System/Source/Newlib/_exit.o
  .debug_ranges  0x00000000000000a0       0xa0 ./System/Source/Newlib/_startup.o
  .debug_ranges  0x0000000000000140       0x70 ./System/Source/Cmsis/system_stm32f10x.o
  .debug_ranges  0x00000000000001b0       0x10 ./System/Source/Cmsis/vectors_stm32f10x.o
- .debug_ranges  0x00000000000001c0      0x878 ./Code/main103c8t6_1.o
+ .debug_ranges  0x00000000000001c0      0x308 ./Code/main103c8t6_1.o
 
 .debug_macro    0x0000000000000000    0x12e75
  .debug_macro   0x0000000000000000       0x80 ./System/Source/cortexm/_initialize_hardware.o
