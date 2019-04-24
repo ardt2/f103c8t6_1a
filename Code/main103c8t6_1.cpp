@@ -75,7 +75,7 @@ union
         uint16_t words[11];
     struct
     {
-       int16_t MD;
+       int16_t MD;  // TODO: сдвинуть на байт.
        int16_t MC;
        int16_t MB;
        int16_t B2;
@@ -94,11 +94,37 @@ union
 {
     struct
     {
-        uint8_t data2; // LSB - MSB
-        uint8_t data;
-    } D;
+        struct
+        {
+            uint8_t data2; // LSB - MSB
+            uint8_t data1;
+            uint8_t data0;
+        } D3;
+
+        uint8_t data3; // = 0;
+
+    } D3;
+
+    struct
+    {
+
+        struct
+        {
+            uint8_t data1;
+            uint8_t data0;
+        } D2;
+
+        uint8_t data3; // = 0;
+        uint8_t data2; // = 0;
+
+    } D2;
 
     int32_t Val;
+
+    void Init(void) { D2.data2 = 0; D2.data3 = 0; D3.data3 = 0; }
+    int32_t ShiftT(void) { return Val; }    // TODO
+    int32_t ShiftP(void) { return Val; }
+
 } BmpInt;
 
 // ----------------------------------------------------------------------------
@@ -135,6 +161,8 @@ void main(void)
     PortB.PinOn<GPin::P5>();
 
     i2c1.Open();
+
+    BmpInt.Init();
 
 //    i2c1.WriteAddr(0xEEU);
     // Старт, адрес(устройство), ACK, команда(регистр), ACK, данные, ACK, ..., стоп.
@@ -185,18 +213,28 @@ void main(void)
                 break;
 
                 case BmpState::Temp:
-                    i2c1.FullReadTwo(0xEEu, 0xF6u, BmpInt.D.data, BmpInt.D.data2);
+                    BmpInt.Init();
+                    i2c1.FullReadTwo(0xEEu, 0xF6u, BmpInt.D2.D2.data1, BmpInt.D2.D2.data0);
 
                     i2c1.Write(0xEEU, 0xF4u, 0xF4U); // Запуск измерения давления.
 
-                    // TODO: Набить все эти переменные в стек - не лучшая идея.
+                    {
+                        // TODO: Набить все эти переменные в стек - не лучшая идея.
+                        __IO int32_t T;
 
+                        int32_t X1 = (BmpInt.Val - BmpData1.K.AC6) * BmpData1.K.AC5 / 32768;
+                        int32_t X2 =  BmpData1.K.MC * 2048 / (X1 + BmpData1.K.MD);
+                        int32_t B5 = X1 + X2;
 
+                        T = (B5 + 8) / 16;
+                        (void)T;
+                    }
                     BmpState = BmpState::Pressr;
                 break;
 
                 case BmpState::Pressr:
-                    i2c1.FullReadTwo(0xEEu, 0xF6u, BmpInt.D.data, BmpInt.D.data2);
+                    BmpInt.Init();
+                    i2c1.FullReadTwo(0xEEu, 0xF6u, BmpInt.D3.D3.data1, BmpInt.D3.D3.data0);
 
                     i2c1.Write(0xEEu, 0xF4u, 0x2Eu); // Запуск измерения температуры.
 
